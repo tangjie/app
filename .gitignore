@@ -1,2 +1,6 @@
-.sdf
-*/Debug
+bin/Debug
+src/app/app.opensdf
+src/app/app.sdf
+src/base/Debug
+src/test/Debug
+.suo
