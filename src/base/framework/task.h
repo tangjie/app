@@ -1,3 +1,7 @@
+/*
+ * This file defined the task class and  runnable method builder.
+ */
+
 #ifndef BASE_FRAMEWORK_TASK_H__
 #define BASE_FRAMEWORK_TASK_H__
 

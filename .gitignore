@@ -1,4 +1,5 @@
 bin/*
+src/app/ipch/*
 src/app/app.opensdf
 src/app/app.sdf
 src/test/dbg

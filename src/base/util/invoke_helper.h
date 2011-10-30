@@ -1,3 +1,8 @@
+/*
+ * This file defined some helper functions to Invoke a method or function with certain params.it used
+ * std::trl::tuple to pass the arguments.
+ */
+
 #ifndef BASE_FRAMEWORK_TASK_BUILDER_H__
 #define BASE_FRAMEWORK_TASK_BUILDER_H__
 

@@ -1,5 +1,10 @@
+/*
+ * This file used to start all unit test case.
+ */
+
 #include <iostream>
 #include "gtest/gtest.h"
+
 int main(int argc, char *argv[]) {
 	std::cout << "Running all unit test case" << std::endl;
 	testing::InitGoogleTest(&argc,argv);
