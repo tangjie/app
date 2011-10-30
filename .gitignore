@@ -1,7 +1,7 @@
-bin/Debug
+bin/*
 src/app/app.opensdf
 src/app/app.sdf
-src/base/Debug
-src/test/Debug
+src/test/dbg
+src/test/opt
 *.suo
 *.user
