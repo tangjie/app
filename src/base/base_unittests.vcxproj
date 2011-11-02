@@ -11,12 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="run_all_unittests.cpp" />
+    <ClCompile Include="..\third_party\gtest\src\gtest_main.cc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CE9855E1-7321-4B15-B034-BA2F09B4DB23}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>test_app</RootNamespace>
+    <RootNamespace>base_unittests</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='dbg|Win32'" Label="Configuration">
@@ -44,10 +44,12 @@
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)d</TargetName>
     <OutDir>$(ProjectDir)../../bin/$(Configuration)/</OutDir>
+    <IntDir>$(ProjectDir)../../tmp/$(Configuration)/</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='opt|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)../../bin/$(Configuration)/</OutDir>
+    <IntDir>$(ProjectDir)../../tmp/$(Configuration)/</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='dbg|Win32'">
     <ClCompile>

@@ -1,7 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_app", "..\test\test_app.vcxproj", "{CE9855E1-7321-4B15-B034-BA2F09B4DB23}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "base_unittests", "..\base\base_unittests.vcxproj", "{CE9855E1-7321-4B15-B034-BA2F09B4DB23}"
+	ProjectSection(ProjectDependencies) = postProject
+		{835D37C0-5DDC-4280-B9BF-05DAD77391F7} = {835D37C0-5DDC-4280-B9BF-05DAD77391F7}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "base", "..\base\base.vcxproj", "{835D37C0-5DDC-4280-B9BF-05DAD77391F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +18,10 @@ Global
 		{CE9855E1-7321-4B15-B034-BA2F09B4DB23}.dbg|Win32.Build.0 = dbg|Win32
 		{CE9855E1-7321-4B15-B034-BA2F09B4DB23}.opt|Win32.ActiveCfg = opt|Win32
 		{CE9855E1-7321-4B15-B034-BA2F09B4DB23}.opt|Win32.Build.0 = opt|Win32
+		{835D37C0-5DDC-4280-B9BF-05DAD77391F7}.dbg|Win32.ActiveCfg = dbg|Win32
+		{835D37C0-5DDC-4280-B9BF-05DAD77391F7}.dbg|Win32.Build.0 = dbg|Win32
+		{835D37C0-5DDC-4280-B9BF-05DAD77391F7}.opt|Win32.ActiveCfg = opt|Win32
+		{835D37C0-5DDC-4280-B9BF-05DAD77391F7}.opt|Win32.Build.0 = opt|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
