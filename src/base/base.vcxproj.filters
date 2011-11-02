@@ -21,6 +21,9 @@
     <ClInclude Include="util\invoke_helper.h">
       <Filter>util</Filter>
     </ClInclude>
+    <ClInclude Include="util\noncopyable.h">
+      <Filter>util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
