@@ -5,6 +5,7 @@
 #include "base/time/time.h"
 #include <MMSystem.h>
 #include <stdlib.h>
+#include "base/synchronization/lock.h"
 
 #pragma comment(lib, "winmm.lib")
 
@@ -43,9 +44,9 @@ namespace base {
 
 		DWORD last_seen_now = 0;
 		int64_t rollover_ms = 0;
-
+		LockImpl lock_impl;
 		TimeSpan RolloverProtectedNow() {
-			//TODO: add lock for multi-thread operate
+			AutoLock lock(lock_impl);
 			DWORD now = timeGetTime();
 			if (now < last_seen_now) {
 				rollover_ms += 0x100000000LL;
