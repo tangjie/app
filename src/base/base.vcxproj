@@ -15,6 +15,7 @@
     <ClInclude Include="framework\message_pump.h" />
     <ClInclude Include="framework\task.h" />
     <ClInclude Include="util\invoke_helper.h" />
+    <ClInclude Include="util\noncopyable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp" />
@@ -65,7 +66,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../third_party/gtest/include/;../</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../;../third_party/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
@@ -85,7 +86,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../third_party/gtest/include/;../</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../;../third_party/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
