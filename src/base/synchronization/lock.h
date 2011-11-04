@@ -6,6 +6,7 @@
 #define BASE_SYNCHRONIZATION_LOCK_H__
 
 #include <Windows.h>
+#include "base/util/noncopyable.h"
 
 namespace base {
 	class LockImpl {
@@ -19,7 +20,7 @@ namespace base {
 		CRITICAL_SECTION critical_section_;
 	};
 
-	class AutoLock {
+  class AutoLock :public noncopyable {
 	public: 
 		AutoLock(LockImpl &lock) : lock_(lock){
 			lock_.Lock();
@@ -31,8 +32,6 @@ namespace base {
 
 	private:
 		LockImpl& lock_;
-		AutoLock(const AutoLock &auto_lock);
-		AutoLock& operator=(const AutoLock &auto_lock);
 	};
 }
 #endif// BASE_SYNCHRONIZATION_LOCK_H__
