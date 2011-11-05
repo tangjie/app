@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\third_party\gtest\src\gtest_main.cc" />
+    <ClCompile Include="memory\scoped_ptr_unittest.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CE9855E1-7321-4B15-B034-BA2F09B4DB23}</ProjectGuid>
