@@ -20,7 +20,7 @@ namespace base {
 		CRITICAL_SECTION critical_section_;
 	};
 
-  class AutoLock :public noncopyable {
+	class AutoLock :public noncopyable {
 	public: 
 		AutoLock(LockImpl &lock) : lock_(lock){
 			lock_.Lock();

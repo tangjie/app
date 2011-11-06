@@ -58,7 +58,8 @@ public:
 	typedef T element_type;
 
 	//Constructor. Note the explicit key word
-	explicit scoped_ptr(T *p = nullptr) : ptr_(p) {}
+	explicit scoped_ptr(T *p = nullptr) : ptr_(p) {
+	}
 
 	//Destructor. Don't need to test ptr_ == nullptr, because C++ does it for us.
 	~scoped_ptr() {

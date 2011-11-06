@@ -138,7 +138,7 @@ namespace base {
 		return TimeSpan(microseconds);
 	}
 
-	int64_t TimeSpan::ToInternalValue() {
+	int64_t TimeSpan::ToInternalValue() const {
 		return span_;
 	}
 
@@ -178,16 +178,16 @@ namespace base {
 		return span_;
 	}
 
-	TimeSpan& TimeSpan::operator=(const TimeSpan &other) {
+	TimeSpan& TimeSpan::operator=(TimeSpan other) {
 		span_ = other.span_;
 		return *this;
 	}
 
-	TimeSpan TimeSpan::operator+(TimeSpan other) {
+	TimeSpan TimeSpan::operator+(TimeSpan other) const {
 		return TimeSpan(span_ + other.span_);
 	}
 
-	TimeSpan TimeSpan::operator-(TimeSpan other) {
+	TimeSpan TimeSpan::operator-(TimeSpan other) const {
 		return TimeSpan(span_ - other.span_);
 	}
 
@@ -201,15 +201,15 @@ namespace base {
 		return *this;
 	}
 
-	TimeSpan TimeSpan::operator-() {
+	TimeSpan TimeSpan::operator-() const {
 		return TimeSpan(-span_);
 	}
 
-	TimeSpan TimeSpan::operator*(int64_t a) {
+	TimeSpan TimeSpan::operator*(int64_t a) const{
 		return TimeSpan(a * span_);
 	}
 
-	TimeSpan TimeSpan::operator/(int64_t a ) {
+	TimeSpan TimeSpan::operator/(int64_t a ) const{
 		return TimeSpan(span_ / a);
 	}
 
@@ -223,46 +223,46 @@ namespace base {
 		return *this;
 	}
 
-	Time TimeSpan::operator+(Time time) {
+	Time TimeSpan::operator+(Time time) const{
 		return Time(span_ + time.microseconds_);
 	}
 
-	TimeTicks TimeSpan::operator+(TimeTicks ticks) {
+	TimeTicks TimeSpan::operator+(TimeTicks ticks) const{
 		return TimeTicks(span_ + ticks.ticks_);
 	}
 
-	bool TimeSpan::operator==(TimeSpan other) {
+	bool TimeSpan::operator==(TimeSpan other) const{
 		return span_ == other.span_;
 	}
 
-	bool TimeSpan::operator!=(TimeSpan other) {
+	bool TimeSpan::operator!=(TimeSpan other) const{
 		return span_ != other.span_;
 	}
 
-	bool TimeSpan::operator<(TimeSpan other) {
+	bool TimeSpan::operator<(TimeSpan other) const{
 		return span_ < other.span_;
 	}
 
-	bool TimeSpan::operator<=(TimeSpan other) {
+	bool TimeSpan::operator<=(TimeSpan other) const{
 		return span_ <= other.span_;
 	}
 
-	bool TimeSpan::operator>(TimeSpan other) {
+	bool TimeSpan::operator>(TimeSpan other) const{
 		return span_ > other.span_;
 	}
 
-	bool TimeSpan::operator>=(TimeSpan other) {
+	bool TimeSpan::operator>=(TimeSpan other) const{
 		return span_ > other.span_;
 	}
 
-	TimeSpan operator*(int64_t a, TimeSpan other) {
+	TimeSpan operator*(int64_t a, TimeSpan other){
 		return TimeSpan(a * other.span_);
 	}
 
 	//Time
 	const int64_t Time::kTimeTToMicrosecondsOffset = 11644473600000000LL;
 
-	Time::Time(bool is_local, TimeStruct &ts) {
+	Time::Time(bool is_local, const TimeStruct &ts) {
 		microseconds_ = FromTimeStruct(is_local,ts).microseconds_;
 	}
 
@@ -293,7 +293,7 @@ namespace base {
 		return (microseconds_ - kTimeTToMicrosecondsOffset) / UnitConversion::kMicrosecondsPerSecond;
 	}
 
-	bool Time::TimeStruct::IsvalidValues() const {
+	bool Time::TimeStruct::IsValidValues() const {
 		using namespace base::time_helper;
 		return IsInRange(month_, 1, 12) &&
 				IsInRange(day_of_week_, 0, 6) &&
@@ -309,7 +309,7 @@ namespace base {
 		return Time(microseconds);
 	}
 
-	Time Time::FromTimeStruct(bool is_local, TimeStruct &ts) {
+	Time Time::FromTimeStruct(bool is_local, const TimeStruct &ts) {
 		SYSTEMTIME st;
 		st.wYear			= ts.year();
 		st.wMonth		 = ts.month();
@@ -334,7 +334,7 @@ namespace base {
 		return Time(microseconds);
 	}
 
-	Time::TimeStruct Time::ToTimeStruct(bool is_local) {
+	Time::TimeStruct Time::ToTimeStruct(bool is_local) const{
 		FILETIME utc_ft;
 		TimeStruct ts;
 		time_helper::MicrosecondsToFileTime(microseconds_, &utc_ft);
@@ -370,7 +370,7 @@ namespace base {
 		return utc_ft;
 	}
 
-	Time& Time::operator=(const Time &other) {
+	Time& Time::operator=(Time other) {
 		microseconds_ = other.microseconds_;
 		return *this;
 	}
@@ -379,11 +379,11 @@ namespace base {
 		return TimeSpan(microseconds_ - other.microseconds_);
 	}
 
-	Time Time::operator+(TimeSpan span) {
+	Time Time::operator+(TimeSpan span) const {
 		return Time(microseconds_ + span.span_);
 	}
 
-	Time Time::operator-(TimeSpan span) {
+	Time Time::operator-(TimeSpan span) const {
 		return Time(microseconds_ - span.span_);
 	}
 
@@ -397,27 +397,27 @@ namespace base {
 		return *this;
 	}
 
-	bool Time::operator==(Time other) {
+	bool Time::operator==(Time other) const {
 		return microseconds_ == other.microseconds_;
 	}
 
-	bool Time::operator!=(Time other) {
+	bool Time::operator!=(Time other) const {
 		return microseconds_ != other.microseconds_;
 	}
 
-	bool Time::operator<(Time other) {
+	bool Time::operator<(Time other) const {
 		return microseconds_ < other.microseconds_;
 	}
 
-	bool Time::operator<=(Time other) {
+	bool Time::operator<=(Time other) const {
 		return microseconds_ <= other.microseconds_;
 	}
 
-	bool Time::operator>(Time other) {
+	bool Time::operator>(Time other) const {
 		return microseconds_ > other.microseconds_;
 	}
 
-	bool Time::operator>=(Time other) {
+	bool Time::operator>=(Time other) const {
 		return microseconds_ > other.microseconds_;
 	}
 
@@ -430,20 +430,20 @@ namespace base {
 		return TimeTicks() + time_helper::HighResolutionNowSingleton::GetInstance()->Now();
 	}
 
-  TimeTicks& TimeTicks::operator=(const TimeTicks &other) {
+  TimeTicks& TimeTicks::operator=(TimeTicks other) {
     ticks_ = other.ticks_;
     return *this;
   }
 
-  TimeSpan TimeTicks::operator-(TimeTicks other) {
+  TimeSpan TimeTicks::operator-(TimeTicks other) const {
     return TimeSpan(ticks_ - other.ticks_);
   }
 
-  TimeTicks TimeTicks::operator+(TimeSpan span) {
+  TimeTicks TimeTicks::operator+(TimeSpan span) const {
     return TimeTicks(ticks_ + span.span_);
   }
 
-  TimeTicks TimeTicks::operator-(TimeSpan span) {
+  TimeTicks TimeTicks::operator-(TimeSpan span) const {
     return TimeTicks(ticks_ - span.span_);
   }
 
@@ -457,27 +457,27 @@ namespace base {
     return *this;
   }
 
-  bool TimeTicks::operator==(TimeTicks other) {
+  bool TimeTicks::operator==(TimeTicks other) const {
     return ticks_ == other.ticks_;
   }
 
-  bool TimeTicks::operator!=(TimeTicks other) {
+  bool TimeTicks::operator!=(TimeTicks other) const {
     return ticks_ != other.ticks_;
   }
 
-  bool TimeTicks::operator<(TimeTicks other) {
+  bool TimeTicks::operator<(TimeTicks other) const {
     return ticks_ < other.ticks_;
   }
 
-  bool TimeTicks::operator<=(TimeTicks other) {
+  bool TimeTicks::operator<=(TimeTicks other) const {
     return ticks_ <= other.ticks_;
   }
 
-  bool TimeTicks::operator>(TimeTicks other) {
+  bool TimeTicks::operator>(TimeTicks other) const {
     return ticks_ > other.ticks_;
   }
 
-  bool TimeTicks::operator>=(TimeTicks other) {
+  bool TimeTicks::operator>=(TimeTicks other) const {
     return ticks_ >= other.ticks_;
   }
 }

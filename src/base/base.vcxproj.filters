@@ -7,6 +7,12 @@
     <Filter Include="util">
       <UniqueIdentifier>{7c0e7c03-b609-4763-8575-d1a1192b7f27}</UniqueIdentifier>
     </Filter>
+    <Filter Include="time">
+      <UniqueIdentifier>{f6c91ee1-bf91-4185-94be-4c2a3019c872}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="synchronization">
+      <UniqueIdentifier>{aa130833-30d3-4d28-ab1c-7a6b6a5f8895}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework\message_pump.h">
@@ -24,6 +30,12 @@
     <ClInclude Include="util\noncopyable.h">
       <Filter>util</Filter>
     </ClInclude>
+    <ClInclude Include="time\time.h">
+      <Filter>time</Filter>
+    </ClInclude>
+    <ClInclude Include="synchronization\lock.h">
+      <Filter>synchronization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
@@ -31,6 +43,12 @@
     </ClCompile>
     <ClCompile Include="framework\message_pump.cpp">
       <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="time\time.cpp">
+      <Filter>time</Filter>
+    </ClCompile>
+    <ClCompile Include="synchronization\lock.cpp">
+      <Filter>synchronization</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

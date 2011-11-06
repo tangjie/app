@@ -5,10 +5,16 @@
     <ClCompile Include="memory\scoped_ptr_unittest.cpp">
       <Filter>memory</Filter>
     </ClCompile>
+    <ClCompile Include="time\time_unitttest.cpp">
+      <Filter>time</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="memory">
       <UniqueIdentifier>{2e5fe71a-fbff-49a6-9504-78e3d0ce91e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="time">
+      <UniqueIdentifier>{c19be543-b5d3-4d4c-8829-a87d8afcd07d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

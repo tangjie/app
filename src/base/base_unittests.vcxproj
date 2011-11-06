@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\third_party\gtest\src\gtest_main.cc" />
     <ClCompile Include="memory\scoped_ptr_unittest.cpp" />
+    <ClCompile Include="time\time_unitttest.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CE9855E1-7321-4B15-B034-BA2F09B4DB23}</ProjectGuid>
@@ -67,7 +68,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../libs</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>gtestd.lib;%(AdditionalDependencies);E:\big\app\bin\dbg\base.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='opt|Win32'">
