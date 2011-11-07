@@ -95,7 +95,7 @@ namespace base {
 				if (!QueryPerformanceFrequency(&ticks_per_second)) {
 					return;
 				}
-				ticks_per_microsecond_ = static_cast<float>(ticks_per_second.QuadPart) / static_cast<float>(UnitConversion::kMicrosecondsPerSecond)
+				ticks_per_microsecond_ = static_cast<float>(ticks_per_second.QuadPart) / static_cast<float>(UnitConversion::kMicrosecondsPerSecond);
 				skew_ = UnreliableNow() - ReliableNow();
 			}
 

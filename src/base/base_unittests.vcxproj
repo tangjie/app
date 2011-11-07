@@ -68,7 +68,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../libs</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtestd.lib;%(AdditionalDependencies);E:\big\app\bin\dbg\base.lib</AdditionalDependencies>
+      <AdditionalDependencies>gtestd.lib;%(AdditionalDependencies);$(ProjectDir)../../bin/$(Configuration)/base.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='opt|Win32'">
