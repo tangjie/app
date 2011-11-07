@@ -91,11 +91,11 @@ namespace base {
 			}
 
 			void InitializeClock() {
-				LARGE_INTEGER ticks_per_microsecond = {{0}};
-				if (!QueryPerformanceFrequency(&ticks_per_microsecond)) {
+				LARGE_INTEGER ticks_per_second = {{0}};
+				if (!QueryPerformanceFrequency(&ticks_per_second)) {
 					return;
 				}
-				ticks_per_microsecond_ = static_cast<float>(ticks_per_microsecond.QuadPart);
+				ticks_per_microsecond_ = static_cast<float>(ticks_per_second.QuadPart) / static_cast<float>(UnitConversion::kMicrosecondsPerSecond)
 				skew_ = UnreliableNow() - ReliableNow();
 			}
 
