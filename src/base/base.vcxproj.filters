@@ -13,6 +13,9 @@
     <Filter Include="synchronization">
       <UniqueIdentifier>{aa130833-30d3-4d28-ab1c-7a6b6a5f8895}</UniqueIdentifier>
     </Filter>
+    <Filter Include="thread">
+      <UniqueIdentifier>{750df2fc-3180-4556-95fd-dead5390d803}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework\message_pump.h">
@@ -36,6 +39,9 @@
     <ClInclude Include="synchronization\lock.h">
       <Filter>synchronization</Filter>
     </ClInclude>
+    <ClInclude Include="thread\thread.h">
+      <Filter>thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
@@ -49,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="synchronization\lock.cpp">
       <Filter>synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="thread\thread.cpp">
+      <Filter>thread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
