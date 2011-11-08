@@ -32,15 +32,20 @@ namespace base {
 	public:
 		Thread();
 		~Thread();
+		// the runnable interface is used to execute thread work in fact.it can be registered by set_runnable_delegate method.
+		class Runnable {
+		public:
+			virtual void Run() = 0;
+		};
 		// start a thread if a thread is not started.
 		bool Start();
 		// Stop method will wait for the thread end and return.
 		void Stop();
 		// Terminate will block the thread and return.
 		void Terminate();
-		//Pause a thread.
+		// Pause a thread.
 		bool Suspend();
-		//Resume a thread.
+		// Resume a thread.
 		bool Resume();
 		static void Sleep(int64_t milliseconds);
 		// Get the current active thread id of process
@@ -50,9 +55,14 @@ namespace base {
 		ThreadHandle thread_handle() const;
 		ThreadPriority thread_priority() const;
 		void set_thread_priority(ThreadPriority thread_priority);
+		// Register a runnable delegate to tell the thread who will complete the work in fact.
+		void set_runnable_delegate(Runnable *delegate);
 		ThreadState thread_state();
 	protected:
-		virtual void Run() {
+		virtual void Execute() {
+			if (runnable_delegate_ != NULL) {
+				runnable_delegate_->Run();
+			}
 		};
 
 	private:
@@ -63,6 +73,8 @@ namespace base {
 		ThreadId thread_id_;
 		ThreadHandle thread_handle_;
 		ThreadPriority thread_priority_;
+		//does smart_ptr performance better ?
+		Runnable *runnable_delegate_;
 	};
 }
 

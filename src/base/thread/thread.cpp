@@ -10,7 +10,10 @@ namespace base {
 
 	bool Thread::Start() {
 		assert(thread_state_ == kInitialized);
-		thread_handle_ = reinterpret_cast<ThreadHandle>(_beginthreadex(NULL, 0, ThreadProc, this, 0, (unsigned*)thread_id_));
+		if (thread_state_ != kInitialized) {
+			return false;
+		}
+		thread_handle_ = reinterpret_cast<ThreadHandle>(_beginthreadex(NULL, 0, ThreadProc, this, 0, (unsigned int*)&thread_id_));
 		int priority = THREAD_PRIORITY_BELOW_NORMAL;
 		ConvertPriorityToSystemPriority(thread_priority_);
 		SetThreadPriority (thread_handle_, priority);
@@ -23,6 +26,8 @@ namespace base {
 			if (WAIT_OBJECT_0 == WaitForSingleObject(thread_handle_, INFINITE)) {
 				CloseHandle(thread_handle_);
 				thread_handle_ = NULL;
+				delete runnable_delegate_;
+				runnable_delegate_ = NULL;
 				thread_id_ = 0;
 			}else {
 				Terminate();
@@ -36,6 +41,8 @@ namespace base {
 			TerminateThread(thread_handle_, 0);
 			CloseHandle(thread_handle_);
 			thread_handle_ = NULL;
+			delete runnable_delegate_;
+			runnable_delegate_ = NULL;
 			thread_id_ = 0;
 		}
 		thread_state_ = kTerminate;
@@ -90,6 +97,14 @@ namespace base {
 		SetThreadPriority (thread_handle_, priority);
 	}
 
+	void Thread::set_runnable_delegate(Runnable *delegate) {
+		assert(thread_state_ == kInitialized);
+		if (thread_state_ != kInitialized) {
+			return;
+		}
+		runnable_delegate_ = delegate;
+	}
+
 	ThreadState Thread::thread_state() {
 		return thread_state_;
 	}
@@ -98,7 +113,7 @@ namespace base {
 		Thread* thread = reinterpret_cast<Thread*>(params);
 		assert(thread != NULL);
 		if (thread != NULL) {
-			thread->Run();
+			thread->Execute();
 		}
 		// why call _endthreadex.
 		_endthreadex(0);
