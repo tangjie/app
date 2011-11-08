@@ -19,7 +19,7 @@ namespace base {
 	}
 
 	void Thread::Stop() {
-		if (thread_handle_) {
+		if (thread_handle_ != NULL) {
 			if (WAIT_OBJECT_0 == WaitForSingleObject(thread_handle_, INFINITE)) {
 				CloseHandle(thread_handle_);
 				thread_handle_ = NULL;
@@ -32,7 +32,7 @@ namespace base {
 	}
 
 	void Thread::Terminate() {
-		if (thread_handle_) {
+		if (thread_handle_ !=NULL) {
 			TerminateThread(thread_handle_, 0);
 			CloseHandle(thread_handle_);
 			thread_handle_ = NULL;
@@ -42,15 +42,21 @@ namespace base {
 	}
 
 	bool Thread::Suspend() {
-		SuspendThread(thread_handle_);
-		thread_state_ = kSuspend;
-		return true;
+		if (thread_state_ == kRunning && thread_handle_ != NULL) {
+			SuspendThread(thread_handle_);
+			thread_state_ = kSuspend;
+			return true;
+		}
+		return false;
 	}
 
 	bool Thread::Resume() {
-		ResumeThread(thread_handle_);
-		thread_state_ = kRunning;
-		return true;
+		if (thread_state_ == kSuspend && thread_handle_ != NULL) {
+			ResumeThread(thread_handle_);
+			thread_state_ = kRunning;
+			return true;
+		}
+		return false;
 	}
 
 	void Thread::Sleep(int64_t milliseconds) {
