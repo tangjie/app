@@ -4,9 +4,10 @@
 using base::Time;
 using base::TimeSpan;
 using base::TimeTicks;
+using base::UnitConversion::kMicrosecondsPerMillisecond;
 
 namespace {
-	void WaitForTinyTicks() {
+	inline void WaitForTinyTicks() {
 		Sleep(100);
 	}
 }
@@ -88,8 +89,12 @@ TEST(Time, Conversion) {
 	Time t = Time::Now();
 	EXPECT_EQ(t, t - span + span);
 	EXPECT_EQ(t, span + t - span);
-	EXPECT_EQ(t, Time::FromTimeStruct(true, t.ToTimeStruct(true)));
 	EXPECT_EQ(t, Time::FromFileTime(t.ToFileTime()));
+	//Since TimeStruct is based on millisecond, so we should discard the microsecond part in Time t. 
+	t -= TimeSpan::FromMicroseconds(t.ToInternalValue() % kMicrosecondsPerMillisecond);
+	EXPECT_EQ(t, Time::FromTimeStruct(true, t.ToTimeStruct(true)));
+	EXPECT_EQ(t, Time::FromTimeStruct(false, t.ToTimeStruct(false)));
+	
 }
 
 #define TIME_NOW_TEST(Class, Fun) \
