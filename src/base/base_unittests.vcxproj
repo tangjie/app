@@ -15,6 +15,11 @@
     <ClCompile Include="memory\scoped_ptr_unittest.cpp" />
     <ClCompile Include="time\time_unitttest.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="base.vcxproj">
+      <Project>{835d37c0-5ddc-4280-b9bf-05dad77391f7}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CE9855E1-7321-4B15-B034-BA2F09B4DB23}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -68,7 +73,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../libs</AdditionalLibraryDirectories>
-      <AdditionalDependencies>gtestd.lib;%(AdditionalDependencies);$(ProjectDir)../../bin/$(Configuration)/base.lib</AdditionalDependencies>
+      <AdditionalDependencies>gtestd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='opt|Win32'">
