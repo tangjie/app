@@ -16,6 +16,9 @@
     <Filter Include="thread">
       <UniqueIdentifier>{750df2fc-3180-4556-95fd-dead5390d803}</UniqueIdentifier>
     </Filter>
+    <Filter Include="memory">
+      <UniqueIdentifier>{cef4e411-7071-47b2-a98e-0ea0ae2920a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework\message_pump.h">
@@ -41,6 +44,12 @@
     </ClInclude>
     <ClInclude Include="thread\thread.h">
       <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\scoped_ptr.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\casts.h">
+      <Filter>memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

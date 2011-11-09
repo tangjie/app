@@ -11,4 +11,7 @@ typedef unsigned short	uint16_t;
 typedef unsigned int	uint32_t;
 typedef unsigned __int64	uint64_t;
 
+//since almost cast is very useful, so we include it here.
+#include "base/memory/casts.h"
+
 #endif	// BASE_BASE_TYPES_H__

@@ -14,6 +14,8 @@
     <ClInclude Include="framework\message_loop.h" />
     <ClInclude Include="framework\message_pump.h" />
     <ClInclude Include="framework\task.h" />
+    <ClInclude Include="memory\casts.h" />
+    <ClInclude Include="memory\scoped_ptr.h" />
     <ClInclude Include="synchronization\lock.h" />
     <ClInclude Include="thread\thread.h" />
     <ClInclude Include="time\time.h" />
@@ -75,6 +77,7 @@
       <AdditionalIncludeDirectories>../;../third_party/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <TreatWarningAsError>false</TreatWarningAsError>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -95,6 +98,7 @@
       <AdditionalIncludeDirectories>../;../third_party/</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <TreatWarningAsError>false</TreatWarningAsError>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
