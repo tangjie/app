@@ -16,14 +16,6 @@ namespace base {
 			return low <= value && value <= hight;
 		}
 
-		template<class Dest, class Src>
-		inline Dest bit_cast(const Src &src) {
-			typedef char VerifySizesAreEqual [sizeof(Dest) == sizeof(Src) ? 1 : -1];
-			Dest dest;
-			memcpy(&dest, &src, sizeof(dest));
-			return dest;
-		}
-
 		int64_t FileTimeToMicroseconds(FILETIME ft) {
 			// why do bit_cast ? why not divide by 10 directly
 			return bit_cast<int64_t, FILETIME>(ft) / 10;
