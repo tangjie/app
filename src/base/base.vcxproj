@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="framework\message_loop.h" />
     <ClInclude Include="framework\message_pump.h" />
+    <ClInclude Include="framework\observer_list.h" />
     <ClInclude Include="framework\task.h" />
     <ClInclude Include="memory\casts.h" />
     <ClInclude Include="memory\scoped_ptr.h" />

@@ -8,6 +8,9 @@
     <ClCompile Include="time\time_unitttest.cpp">
       <Filter>time</Filter>
     </ClCompile>
+    <ClCompile Include="framework\observer_list_unittest.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="memory">
@@ -15,6 +18,9 @@
     </Filter>
     <Filter Include="time">
       <UniqueIdentifier>{c19be543-b5d3-4d4c-8829-a87d8afcd07d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="framework">
+      <UniqueIdentifier>{0f752178-14dc-4e54-acd9-c37e29f769ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -51,6 +51,9 @@
     <ClInclude Include="memory\casts.h">
       <Filter>memory</Filter>
     </ClInclude>
+    <ClInclude Include="framework\observer_list.h">
+      <Filter>framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
