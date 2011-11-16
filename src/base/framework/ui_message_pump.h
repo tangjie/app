@@ -2,8 +2,9 @@
  * This file use to implement UI message pump
  */
 
-#ifdef BASE_FRAMEWORK_UI_MESSAGE_PUMP_H__
+#ifndef BASE_FRAMEWORK_UI_MESSAGE_PUMP_H__
 #define BASE_FRAMEWORK_UI_MESSAGE_PUMP_H__
+
 
 #include <Windows.h>
 #include "base/framework/message_pump.h"
@@ -20,20 +21,21 @@ namespace base {
       virtual bool Dispatch(const MSG &msg) = 0;
     };
 
-    class UIListener {
+    class UIObserver {
     public:
       virtual void PreProcessMessage(const MSG &msg) = 0;
       virtual void PostProcessMessage(const MSG &msg) = 0;
     };
 
-    void AddUIListener(UIListener *listener);
-    void RemoveListener(UIListener *listener);
+    void AddUIObserver(UIObserver *listener);
+    void RemoveUIObserver(UIObserver *listener);
+	// Start UI message punp.
     void RunWithDispatcher(Delegate *delegate, Dispatcher *dispatcher);
     virtual void Run(Delegate *delegate);
     virtual void Quit();
     virtual void DispatchWork();
-    virtual void DispatchDelayWork(const TimeTicks &next_time);
-    UIMessagePump() : have_work_(0), state_(NULL) {
+    virtual void DispatchDelayWork(const TimeTicks &delayed_work_time);
+    UIMessagePump() : have_work_(0), state_(nullptr) {
     }
 
     virtual ~UIMessagePump() {
@@ -48,7 +50,7 @@ namespace base {
     };
 
     static LRESULT WindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
-    int GetCurrentDelay();
+    int GetCurrentDelay() const;
     void DoRunLoop();
     void InitMessageWnd();
     void HandleWorkMessage();
@@ -56,9 +58,9 @@ namespace base {
 
     RunState* state_;
     long have_work_;
-    TimeTicks next_time_;
+    TimeTicks delayed_work_time_;
     HWND hwnd_;
-    ListenerList<UIListener> ui_listeners_;
+    ObserverList<UIObserver> ui_observers_;
   };
 }
 
