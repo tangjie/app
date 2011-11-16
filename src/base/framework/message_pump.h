@@ -24,8 +24,8 @@ namespace base {
 		virtual ~MessagePump();
 		virtual void Run(Delegate* delegate) = 0;
 		virtual void Quit() = 0;
-		virtual void DispatchWork() = 0;
-		virtual void DispatchDelayWork(const TimeTicks &next_time) = 0;
+		virtual void ScheduleWork() = 0;
+		virtual void ScheduleDelayWork(const TimeTicks &next_time) = 0;
 	};
 }
 

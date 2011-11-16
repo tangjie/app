@@ -54,6 +54,9 @@
     <ClInclude Include="framework\observer_list.h">
       <Filter>framework</Filter>
     </ClInclude>
+    <ClInclude Include="framework\ui_message_pump.h">
+      <Filter>framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="thread\thread.cpp">
       <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\ui_message_pump.cpp">
+      <Filter>framework</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

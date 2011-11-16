@@ -15,6 +15,7 @@
     <ClInclude Include="framework\message_pump.h" />
     <ClInclude Include="framework\observer_list.h" />
     <ClInclude Include="framework\task.h" />
+    <ClInclude Include="framework\ui_message_pump.h" />
     <ClInclude Include="memory\casts.h" />
     <ClInclude Include="memory\scoped_ptr.h" />
     <ClInclude Include="synchronization\lock.h" />
@@ -26,6 +27,7 @@
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp" />
     <ClCompile Include="framework\message_pump.cpp" />
+    <ClCompile Include="framework\ui_message_pump.cpp" />
     <ClCompile Include="synchronization\lock.cpp" />
     <ClCompile Include="thread\thread.cpp" />
     <ClCompile Include="time\time.cpp" />
