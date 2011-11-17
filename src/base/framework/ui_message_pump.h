@@ -1,5 +1,5 @@
 /*
- * This file use to implement UI message pump
+ * This file use to implement UI message pump,Modify from http://src.chromium.org/svn/trunk/src/base/message_pump_win.h
  */
 
 #ifndef BASE_FRAMEWORK_UI_MESSAGE_PUMP_H__

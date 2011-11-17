@@ -1,5 +1,5 @@
 /*
- * This file use to implement UI message pump
+ * This file use to implement UI message pump,Modify from http://src.chromium.org/svn/trunk/src/base/message_pump_win.cc
  */
 
 #include <assert.h>
@@ -45,7 +45,26 @@ namespace base {
 	}
 
 	void UIMessagePump::DoRunLoop() {
+		// IF this was just a simple PeekMessage() loop (servicing all possible work
+		// queues), then Windows would try to achieve the following order according
+		// to MSDN documentation about PeekMessage with no filter):
+		//    * Sent messages
+		//    * Posted messages
+		//    * Sent messages (again)
+		//    * WM_PAINT messages
+		//    * WM_TIMER messages
+		//
+		// Summary: none of the above classes is starved, and sent messages has twice
+		// the chance of being processed (i.e., reduced service time).
 		for(; ;) {
+			// If we do any work, we may create more messages etc., and more work may
+			// possibly be waiting in another task group.  When we (for example)
+			// ProcessNextWindowsMessage(), there is a good chance there are still more
+			// messages waiting.  On the other hand, when any of these methods return
+			// having done no work, then it is pretty unlikely that calling them again
+			// quickly will find any work to do.  Finally, if they all say they had no
+			// work, then it is a good time to consider sleeping (waiting) for more
+			// work.
 			bool more_work_is_plausible = ProcessNextWindowsMessage();
 			if (state_->should_quit_) {
 				break;
@@ -76,6 +95,10 @@ namespace base {
 	}
 
 	bool UIMessagePump::ProcessNextWindowsMessage() {
+		// If there are sent messages in the queue then PeekMessage internally
+		// dispatches the message and returns false. We return true in this
+		// case to ensure that the message loop peeks again instead of calling
+		// MsgWaitForMultipleObjectsEx again.
 		 bool sent_messages_in_queue = false;
 		 DWORD queue_state = GetQueueStatus(QS_SENDMESSAGE);
 		 if (HIWORD(queue_state) & QS_SENDMESSAGE) {
@@ -94,6 +117,7 @@ namespace base {
 			PostQuitMessage(implicit_cast<int>(msg.wParam));
 			return false;
 		}
+		// While running our main message pump, we discard kMsgHaveWork messages.
 		if (kMsgHaveWork == msg.message && msg.hwnd == hwnd_) {
 			return ProcessPumpReplacementMessage();
 		}
@@ -173,7 +197,7 @@ namespace base {
 		if (delayed_work_time_.IsNull()) {
 			return -1;
 		}
-		double time_out = ceil(implicit_cast<double>((delayed_work_time_ - TimeTicks::Now()).ToInternalValue() / 1000));
+		double time_out = ceil((delayed_work_time_ - TimeTicks::Now()).ToInternalValue() / 1000.0);
 		int delay = implicit_cast<int>(time_out);
 		delay = min(delay, 0);
 		return delay;
@@ -190,6 +214,28 @@ namespace base {
 		hwnd_ = CreateWindow(kWndClass, 0, 0, 0, 0, 0, 0, HWND_MESSAGE, 0, instance, 0);
 		assert(hwnd_ != nullptr);
 		//TODO: Add log info. 16/11/2011 by tangjie.
+	}
+
+	void UIMessagePump::HandleWorkMessage() {
+		if (state_ == nullptr) {
+			InterlockedExchange(&have_work_, 0);
+			return;
+		}
+		ProcessPumpReplacementMessage();
+		if (state_->delegate_->DoWork()) {
+			ScheduleWork();
+		}
+	}
+
+	void UIMessagePump::HandleTimerMessage() {
+		KillTimer(hwnd_, reinterpret_cast<UINT_PTR>(this));
+		if (state_ == nullptr) {
+			return;
+		}
+		state_->delegate_->DoDelayWork(&delayed_work_time_);
+		if (!delayed_work_time_.IsNull()) {
+			ScheduleDelayWork(delayed_work_time_);
+		}
 	}
 
 	LRESULT UIMessagePump::WindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
