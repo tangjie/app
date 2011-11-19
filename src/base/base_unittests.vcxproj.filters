@@ -11,6 +11,9 @@
     <ClCompile Include="framework\observer_list_unittest.cpp">
       <Filter>framework</Filter>
     </ClCompile>
+    <ClCompile Include="string\string_piece_unittest.cpp">
+      <Filter>string</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="memory">
@@ -21,6 +24,9 @@
     </Filter>
     <Filter Include="framework">
       <UniqueIdentifier>{0f752178-14dc-4e54-acd9-c37e29f769ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="string">
+      <UniqueIdentifier>{c5a49eed-fb1d-4aef-bf50-f2964767aa3c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

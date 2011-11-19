@@ -19,6 +19,9 @@
     <Filter Include="memory">
       <UniqueIdentifier>{cef4e411-7071-47b2-a98e-0ea0ae2920a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="string">
+      <UniqueIdentifier>{043b24b4-1d1c-48a8-b707-77efe16e7c79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework\message_pump.h">
@@ -53,6 +56,13 @@
     </ClInclude>
     <ClInclude Include="framework\observer_list.h">
       <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="base_types.h" />
+    <ClInclude Include="string\string_piece_inl.h">
+      <Filter>string</Filter>
+    </ClInclude>
+    <ClInclude Include="string\string_piece.h">
+      <Filter>string</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
