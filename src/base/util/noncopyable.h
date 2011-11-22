@@ -5,8 +5,8 @@
  * As noncopyable in boost is very wholesome, so here we borrow its implementation.
  */
 
-#ifndef BASE_UTIL_NONCOPYABLE
-#define BASE_UTIL_NONCOPYABLE
+#ifndef BASE_UTIL_NONCOPYABLE_H__
+#define BASE_UTIL_NONCOPYABLE_H__
 
 #include "boost/noncopyable.hpp"
 
@@ -14,4 +14,4 @@ namespace base {
 	typedef boost::noncopyable noncopyable;
 }
 
-#endif // BASE_UTIL_NONCOPYABLE
+#endif // BASE_UTIL_NONCOPYABLE_H__

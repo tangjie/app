@@ -1,6 +1,8 @@
 ﻿#include "base/string/string_piece.h"
 #include "gtest/gtest.h"
 
+using base::StringPiece;
+using base::StringPiece16;
 //TODO(oldman):给StringPiece添加详细完备的注释
 
 TEST(StringPiece, Fuzzy) {

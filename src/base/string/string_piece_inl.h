@@ -2,8 +2,8 @@
  * StringPiece实现细节，主要是StringPieceTrait，目前该Trait只提供计算字符串长度的方法。
  */
 
-#ifndef BASE_STRING_STRING_PIECE_INL
-#define BASE_STRING_STRING_PIECE_INL
+#ifndef BASE_STRING_STRING_PIECE_INL_H__
+#define BASE_STRING_STRING_PIECE_INL_H__
 
 #include <cstring>
 
@@ -26,4 +26,4 @@ namespace internal{
 	};
 }
 
-#endif //#ifndef BASE_STRING_STRING_PIECE_INL
+#endif //#ifndef BASE_STRING_STRING_PIECE_INL_H__

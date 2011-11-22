@@ -73,6 +73,7 @@
     <ClInclude Include="memory\singleton.h">
       <Filter>memory</Filter>
     </ClInclude>
+    <ClInclude Include="at_exit_manager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
@@ -96,5 +97,6 @@
     <ClCompile Include="thread\thread_local.cpp">
       <Filter>thread</Filter>
     </ClCompile>
+    <ClCompile Include="at_exit_manager.cpp" />
   </ItemGroup>
 </Project>

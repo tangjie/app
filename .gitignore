@@ -3,3 +3,6 @@ src/app/*
 !src/app/app.sln
 *.suo
 *.user
+*.swp
+*.bak
+*~

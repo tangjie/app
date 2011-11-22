@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="at_exit_manager.h" />
     <ClInclude Include="base_types.h" />
     <ClInclude Include="framework\message_loop.h" />
     <ClInclude Include="framework\message_pump.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="util\noncopyable.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="at_exit_manager.cpp" />
     <ClCompile Include="framework\message_loop.cpp" />
     <ClCompile Include="framework\message_pump.cpp" />
     <ClCompile Include="framework\ui_message_pump.cpp" />

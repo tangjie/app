@@ -46,8 +46,8 @@ Synopsis (modify from boost document)
 //Ref: http://en.wikibooks.org/w/index.php?title=More_C%2B%2B_Idioms/Checked_delete
 //     http://www.boost.org/doc/libs/1_47_0/libs/utility/checked_delete.html
 
-#ifndef BASE_MEMORY_SCOPED_PTR
-#define BASE_MEMORY_SCOPED_PTR
+#ifndef BASE_MEMORY_SCOPED_PTR_H__
+#define BASE_MEMORY_SCOPED_PTR_H__
 
 #include "base/util/noncopyable.h"
 
@@ -133,4 +133,4 @@ bool operator!=(T* p1, const scoped_ptr<T>& p2) {
 	return p1 != p2.get();
 }
 
-#endif // #ifndef BASE_MEMORY_SCOPED_PTR
+#endif // #ifndef BASE_MEMORY_SCOPED_PTR_H__

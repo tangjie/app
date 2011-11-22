@@ -22,418 +22,419 @@
  *     (3) c++ standard 2003 [lib.strings]
  */
 
-#ifndef BASE_STRING_STRING_PIECE
-#define BASE_STRING_STRING_PIECE
+#ifndef BASE_STRING_STRING_PIECE_H__
+#define BASE_STRING_STRING_PIECE_H__
 
 #include <algorithm>
 #include <cassert>
 #include <string>
 #include "base/string/string_piece_inl.h"
 
-template<typename C>
-class StringPieceT {
-public:
-	typedef C value_type;
-	typedef C* pointer;
-	typedef C& reference;
-	typedef size_t size_type;
-	typedef ptrdiff_t difference_type;
-	typedef C* iterator;
-	typedef std::reverse_iterator<iterator> reverse_iterator;
-	typedef const C* const_pointer;
-	typedef const C& const_reference;
-	typedef const C* const_iterator;
-	typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+namespace base {
+	template<typename C>
+	class StringPieceT {
+	public:
+		typedef C value_type;
+		typedef C* pointer;
+		typedef C& reference;
+		typedef size_t size_type;
+		typedef ptrdiff_t difference_type;
+		typedef C* iterator;
+		typedef std::reverse_iterator<iterator> reverse_iterator;
+		typedef const C* const_pointer;
+		typedef const C& const_reference;
+		typedef const C* const_iterator;
+		typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
 
-	static const size_t npos = -1;
+		static const size_t npos = -1;
 
-	//constructor
-	//TODO(oldman):remove the dangerous const_cast
-	StringPieceT():ptr_(nullptr), size_(0){
-	}
-	StringPieceT(const C* str, size_t size):ptr_(const_cast<C*>(str)), size_(size){
-	}
-	explicit StringPieceT(const C* str): ptr_(const_cast<C*>(str)), size_(internal::StringPieceTrait<C>::strlen(str)){
-	}
-	explicit StringPieceT(const std::basic_string<C>& str): size_(str.size()){
-		//在C++03中，并没有一个确切的方法获取std::string内的buffer，但是下面这个方法应该是对现在所有编译器都正确的
-		//TODO(oldman): add reference to above comments.
-		ptr_ = const_cast<C*>(str.empty() ? nullptr : &str.front());
-	}
+		//constructor
+		//TODO(oldman):remove the dangerous const_cast
+		StringPieceT():ptr_(nullptr), size_(0){
+		}
+		StringPieceT(const C* str, size_t size):ptr_(const_cast<C*>(str)), size_(size){
+		}
+		explicit StringPieceT(const C* str): ptr_(const_cast<C*>(str)), size_(internal::StringPieceTrait<C>::strlen(str)){
+		}
+		explicit StringPieceT(const std::basic_string<C>& str): size_(str.size()){
+			//在C++03中，并没有一个确切的方法获取std::string内的buffer，但是下面这个方法应该是对现在所有编译器都正确的
+			//TODO(oldman): add reference to above comments.
+			ptr_ = const_cast<C*>(str.empty() ? nullptr : &str.front());
+		}
 
-	//iterator
-	iterator begin() {
-		return ptr_;
-	}
-	const_iterator begin() const {
-		return ptr_;
-	}
-	iterator end() {
-		return ptr_ + size();
-	}
-	const_iterator end() const {
-		return ptr_ + size();
-	}
-	reverse_iterator rbegin() {
-		return reverse_iterator(ptr_ + size());
-	}
-	const_reverse_iterator rbegin() const {
-		return const_reverse_iterator(ptr_ + size());
-	}
-	reverse_iterator rend() {
-		return reverse_iterator(ptr_);
-	}
-	const_reverse_iterator rend() const {
-		return const_reverse_iterator(ptr_);
-	}
+		//iterator
+		iterator begin() {
+			return ptr_;
+		}
+		const_iterator begin() const {
+			return ptr_;
+		}
+		iterator end() {
+			return ptr_ + size();
+		}
+		const_iterator end() const {
+			return ptr_ + size();
+		}
+		reverse_iterator rbegin() {
+			return reverse_iterator(ptr_ + size());
+		}
+		const_reverse_iterator rbegin() const {
+			return const_reverse_iterator(ptr_ + size());
+		}
+		reverse_iterator rend() {
+			return reverse_iterator(ptr_);
+		}
+		const_reverse_iterator rend() const {
+			return const_reverse_iterator(ptr_);
+		}
 
-	//size
-	size_t size() const {
-		return size_;
-	}
-	size_t length() const {
-		return size_;
-	}
-	size_t max_size() const {
-		return size_;
-	}
-	size_t capacity() const {
-		return size_;
-	}
-	bool empty() const {
-		return size_ == 0;
-	}
+		//size
+		size_t size() const {
+			return size_;
+		}
+		size_t length() const {
+			return size_;
+		}
+		size_t max_size() const {
+			return size_;
+		}
+		size_t capacity() const {
+			return size_;
+		}
+		bool empty() const {
+			return size_ == 0;
+		}
 
-	//element
-	const C& operator[](size_t pos) const {
-		assert(pos < size());
-		return ptr_[pos];
-	}
-	C& operator[](size_t pos) {
-		assert(pos < size());
-		return ptr_[pos];
-	}
-	const C& at(size_t pos) const {
-		return operator[](pos);
-	}
-	C& at(size_t pos) {
-		return operator[](pos);
-	}
+		//element
+		const C& operator[](size_t pos) const {
+			assert(pos < size());
+			return ptr_[pos];
+		}
+		C& operator[](size_t pos) {
+			assert(pos < size());
+			return ptr_[pos];
+		}
+		const C& at(size_t pos) const {
+			return operator[](pos);
+		}
+		C& at(size_t pos) {
+			return operator[](pos);
+		}
 
-	//modifier:replace
-	//注意由于replace不能修改字符串长度，因此其原型与std::string略有不同
-	//将从pos开始的内容替换成[str, str+min(len, size() - pos))
-	StringPieceT& replace(size_t pos, const C* src, size_t len) {
-		assert(pos < size());
-		memcpy(ptr_ + pos, src, std::min(len, size() - pos));
-		return *this;
-	}
-	//将[ptr_ + pos, ptr_ + min(pos+len, size()))全部替换成c
-	StringPieceT& replace(size_t pos, size_t len, C c) {
-		assert(pos < size());
-		std::fill(ptr_ + pos, ptr_ + std::min(pos + len, size()), c);
-		return *this;
-	}
-	//迭代器版本，含义同上
-	StringPieceT& replace(const_iterator begin, const_iterator last, const C* src) {
-		assert(begin < last && last <= end());
-		memcpy(begin, src, last - begin);
-		return *this;
-	}
-	StringPieceT& replace(const_iterator begin, const_iterator last, C c) {
-		asseret(begin < last && last <= end());
-		std::fill(begin, last, c);
-		return *this;
-	}
+		//modifier:replace
+		//注意由于replace不能修改字符串长度，因此其原型与std::string略有不同
+		//将从pos开始的内容替换成[str, str+min(len, size() - pos))
+		StringPieceT& replace(size_t pos, const C* src, size_t len) {
+			assert(pos < size());
+			memcpy(ptr_ + pos, src, std::min(len, size() - pos));
+			return *this;
+		}
+		//将[ptr_ + pos, ptr_ + min(pos+len, size()))全部替换成c
+		StringPieceT& replace(size_t pos, size_t len, C c) {
+			assert(pos < size());
+			std::fill(ptr_ + pos, ptr_ + std::min(pos + len, size()), c);
+			return *this;
+		}
+		//迭代器版本，含义同上
+		StringPieceT& replace(const_iterator begin, const_iterator last, const C* src) {
+			assert(begin < last && last <= end());
+			memcpy(begin, src, last - begin);
+			return *this;
+		}
+		StringPieceT& replace(const_iterator begin, const_iterator last, C c) {
+			asseret(begin < last && last <= end());
+			std::fill(begin, last, c);
+			return *this;
+		}
 
-	//modifier:copy
-	//把[ptr_ + pos, ptr_ + min(size(), pos+count))复制到dest中，返回实际复制字符数
-	size_t copy(C* dest, size_t count, size_t pos = 0) {
-		assert(pos < size());
-		size_t n = std::min(size() - pos, count);
-		memcpy(dest, ptr_ + pos, n);
-		return n;
-	}
+		//modifier:copy
+		//把[ptr_ + pos, ptr_ + min(size(), pos+count))复制到dest中，返回实际复制字符数
+		size_t copy(C* dest, size_t count, size_t pos = 0) {
+			assert(pos < size());
+			size_t n = std::min(size() - pos, count);
+			memcpy(dest, ptr_ + pos, n);
+			return n;
+		}
 
-	//c_str
-	//正如文件头部所描述的那样，StringPiece不提供c_str()，而是提供下面一组函数
-	std::basic_string<C> to_string() const {
-		return std::basic_string<C>(ptr_, size());
-	}
-	void to_string(std::basic_string<C>& dest) const {
-		dest.assign(ptr_, size());
-	}
-	const C* as_array() const {
-		return ptr_;
-	}
-	C* as_array() {
-		return ptr_;
-	}
-	//data
-	const C* data() const{
-		return ptr_;
-	}
-	//substr
-	StringPieceT& substr(size_t pos = 0, size_t count = npos) {
-		assert(pos < size());
-		size_t n = (count == npos) ? (size() - pos) : std::min(size() - pos, count);
-		return StringPieceT(ptr_ + pos, n);
-	}
-	//swap
-	void swap(StringPieceT& other) {
-		StringPieceT r(other);
-		other = *this;
-		*this = r;
-	}
-	void swap(StringPieceT&& other) {
-		*this = other;
-		other = StringPieceT();
-	}
+		//c_str
+		//正如文件头部所描述的那样，StringPiece不提供c_str()，而是提供下面一组函数
+		std::basic_string<C> to_string() const {
+			return std::basic_string<C>(ptr_, size());
+		}
+		void to_string(std::basic_string<C>& dest) const {
+			dest.assign(ptr_, size());
+		}
+		const C* as_array() const {
+			return ptr_;
+		}
+		C* as_array() {
+			return ptr_;
+		}
+		//data
+		const C* data() const{
+			return ptr_;
+		}
+		//substr
+		StringPieceT& substr(size_t pos = 0, size_t count = npos) {
+			assert(pos < size());
+			size_t n = (count == npos) ? (size() - pos) : std::min(size() - pos, count);
+			return StringPieceT(ptr_ + pos, n);
+		}
+		//swap
+		void swap(StringPieceT& other) {
+			StringPieceT r(other);
+			other = *this;
+			*this = r;
+		}
+		void swap(StringPieceT&& other) {
+			*this = other;
+			other = StringPieceT();
+		}
 
-	//string opertion: find
-	size_t find(C c, size_t pos = 0) const {
-		return find(&c, pos, 1);
-	}
-	size_t find(const C* s, size_t pos, size_t count) const {
-		return find(StringPieceT(s, count), pos);
-	}
-	size_t find(const C* s, size_t pos = 0) const {
-		//TODO(oldman):用一遍循环完成比较
-		return find(StringPieceT(s), pos);
-	}
-	size_t find(const std::basic_string<C>& str, size_t pos = 0) const {
-		return find(StringPieceT(str), pos);
-	}
-	template<typename To, typename From>
-	inline static To implicit_cast(From const &f) {
-		return f;
-	}
-	size_t find(const StringPieceT& str, size_t pos = 0) const{
-		if (pos >= size() || pos + str.size() > size()) {
+		//string opertion: find
+		size_t find(C c, size_t pos = 0) const {
+			return find(&c, pos, 1);
+		}
+		size_t find(const C* s, size_t pos, size_t count) const {
+			return find(StringPieceT(s, count), pos);
+		}
+		size_t find(const C* s, size_t pos = 0) const {
+			//TODO(oldman):用一遍循环完成比较
+			return find(StringPieceT(s), pos);
+		}
+		size_t find(const std::basic_string<C>& str, size_t pos = 0) const {
+			return find(StringPieceT(str), pos);
+		}
+		template<typename To, typename From>
+		inline static To implicit_cast(From const &f) {
+			return f;
+		}
+		size_t find(const StringPieceT& str, size_t pos = 0) const{
+			if (pos >= size() || pos + str.size() > size()) {
+				return npos;
+			}
+			const C* r = std::search(begin() + pos, end(), str.begin(), str.end());
+			return r == end() ? npos : implicit_cast<size_t>(r - ptr_);
+		}
+
+		//string opertion: rfind
+		size_t rfind(C c, size_t pos = npos) const {
+			return rfind(&c, pos, 1);
+		}
+		size_t rfind(const C* s, size_t pos, size_t count) const {
+			return rfind(StringPieceT(s, count), pos);
+		}
+		size_t rfind(const C* s, size_t pos = npos) const {
+			//TODO(oldman):用一遍循环完成比较
+			return rfind(StringPieceT(s), pos);
+		}
+		size_t rfind(const std::basic_string<C>& str, size_t pos = npos) const {
+			return rfind(StringPieceT(str), pos);
+		}
+		size_t rfind(const StringPieceT& str, size_t pos = npos) const {
+			size_t n = pos >= size() ? 0 : size() - pos;
+			const_reverse_iterator it = std::search(rbegin() + n, rend(), str.rbegin(), str.rend());
+			return it == rend() ? npos : implicit_cast<size_t>(it.base() - begin());
+		}
+
+		//string opertion: find_first_of
+		size_t find_first_of(C c, size_t pos = 0) const {
+			return find_first_of(&c, pos, 1);
+		}
+		size_t find_first_of(const C* s, size_t pos, size_t count) const {
+			return find_first_of(StringPieceT(s, count), pos);
+		}
+		size_t find_first_of(const C* s, size_t pos = 0) const {
+			//TODO(oldman):用一遍循环完成查找
+			return find_first_of(StringPieceT(s), pos);
+		}
+		size_t find_first_of(const std::basic_string<C>& str, size_t pos = 0) const {
+			return find_first_of(StringPieceT(str), pos);
+		}
+		size_t find_first_of(const StringPieceT& str, size_t pos = 0) const {
+			for (const_iterator it = begin() + pos; it < end(); ++it) {
+				if (str.find(*it) != npos) {
+					return implicit_cast<size_t>(it - begin());
+				}
+			}
 			return npos;
 		}
-		const C* r = std::search(begin() + pos, end(), str.begin(), str.end());
-		return r == end() ? npos : implicit_cast<size_t>(r - ptr_);
-	}
 
-	//string opertion: rfind
-	size_t rfind(C c, size_t pos = npos) const {
-		return rfind(&c, pos, 1);
-	}
-	size_t rfind(const C* s, size_t pos, size_t count) const {
-		return rfind(StringPieceT(s, count), pos);
-	}
-	size_t rfind(const C* s, size_t pos = npos) const {
-		//TODO(oldman):用一遍循环完成比较
-		return rfind(StringPieceT(s), pos);
-	}
-	size_t rfind(const std::basic_string<C>& str, size_t pos = npos) const {
-		return rfind(StringPieceT(str), pos);
-	}
-	size_t rfind(const StringPieceT& str, size_t pos = npos) const {
-		size_t n = pos >= size() ? 0 : size() - pos;
-		const_reverse_iterator it = std::search(rbegin() + n, rend(), str.rbegin(), str.rend());
-		return it == rend() ? npos : implicit_cast<size_t>(it.base() - begin());
-	}
-
-	//string opertion: find_first_of
-	size_t find_first_of(C c, size_t pos = 0) const {
-		return find_first_of(&c, pos, 1);
-	}
-	size_t find_first_of(const C* s, size_t pos, size_t count) const {
-		return find_first_of(StringPieceT(s, count), pos);
-	}
-	size_t find_first_of(const C* s, size_t pos = 0) const {
-		//TODO(oldman):用一遍循环完成查找
-		return find_first_of(StringPieceT(s), pos);
-	}
-	size_t find_first_of(const std::basic_string<C>& str, size_t pos = 0) const {
-		return find_first_of(StringPieceT(str), pos);
-	}
-	size_t find_first_of(const StringPieceT& str, size_t pos = 0) const {
-		for (const_iterator it = begin() + pos; it < end(); ++it) {
-			if (str.find(*it) != npos) {
-				return implicit_cast<size_t>(it - begin());
-			}
+		//string opertion: find_first_not_of
+		size_t find_first_not_of(C c, size_t pos = 0) const {
+			return find_first_not_of(&c, pos, 1);
 		}
-		return npos;
-	}
-
-	//string opertion: find_first_not_of
-	size_t find_first_not_of(C c, size_t pos = 0) const {
-		return find_first_not_of(&c, pos, 1);
-	}
-	size_t find_first_not_of(const C* s, size_t pos, size_t count) const {
-		return find_first_not_of(StringPieceT(s, count), pos);
-	}
-	size_t find_first_not_of(const C* s, size_t pos = 0) const {
-		//TODO(oldman):用一遍循环完成查找
-		return find_first_not_of(StringPieceT(s), pos);
-	}
-	size_t find_first_not_of(const std::basic_string<C>& str, size_t pos = 0) const {
-		return find_first_not_of(StringPieceT(str), pos);
-	}
-	size_t find_first_not_of(const StringPieceT& str, size_t pos = 0) const {
-		for (const_iterator it = begin() + pos; it < end(); ++it) {
-			if (str.find(*it) == npos) {
-				return implicit_cast<size_t>(it - begin());
-			}
+		size_t find_first_not_of(const C* s, size_t pos, size_t count) const {
+			return find_first_not_of(StringPieceT(s, count), pos);
 		}
-		return npos;
-	}
-
-	//string opertion: find_last_of
-	size_t find_last_of(C c, size_t pos = 0) const {
-		return find_last_of(&c, pos, 1);
-	}
-	size_t find_last_of(const C* s, size_t pos, size_t count) const {
-		return find_last_of(StringPieceT(s, count), pos);
-	}
-	size_t find_last_of(const C* s, size_t pos = 0) const {
-		//TODO(oldman):用一遍循环完成查找
-		return find_last_of(StringPieceT(s), pos);
-	}
-	size_t find_last_of(const std::basic_string<C>& str, size_t pos = 0) const {
-		return find_last_of(StringPieceT(str), pos);
-	}
-	size_t find_last_of(const StringPieceT& str, size_t pos = npos) const {
-		for (const_reverse_iterator it = rbegin() + pos; it < rend(); ++it) {
-			if (str.find(*it) != npos) {
-				return implicit_cast<size_t>(it.base() - begin());
-			}
+		size_t find_first_not_of(const C* s, size_t pos = 0) const {
+			//TODO(oldman):用一遍循环完成查找
+			return find_first_not_of(StringPieceT(s), pos);
 		}
-		return npos;
-	}
-
-	//string opertion: find_last_not_of
-	size_t find_last_not_of(C c, size_t pos = 0) const {
-		return find_last_not_of(&c, pos, 1);
-	}
-	size_t find_last_not_of(const C* s, size_t pos, size_t count) const {
-		return find_last_not_of(StringPieceT(s, count), pos);
-	}
-	size_t find_last_not_of(const C* s, size_t pos = 0) const {
-		//TODO(oldman):用一遍循环完成查找
-		return find_last_not_of(StringPieceT(s), pos);
-	}
-	size_t find_last_not_of(const std::basic_string<C>& str, size_t pos = 0) const {
-		return find_last_not_of(StringPieceT(str), pos);
-	}
-	size_t find_last_not_of(const StringPieceT& str, size_t pos = npos) const {
-		for (const_reverse_iterator it = rbegin() + pos; it < rend(); ++it) {
-			if (str.find(*it) == npos) {
-				return implicit_cast<size_t>(it.base() - begin());
-			}
+		size_t find_first_not_of(const std::basic_string<C>& str, size_t pos = 0) const {
+			return find_first_not_of(StringPieceT(str), pos);
 		}
-		return npos;
-	}
+		size_t find_first_not_of(const StringPieceT& str, size_t pos = 0) const {
+			for (const_iterator it = begin() + pos; it < end(); ++it) {
+				if (str.find(*it) == npos) {
+					return implicit_cast<size_t>(it - begin());
+				}
+			}
+			return npos;
+		}
 
-	//compare
-	int compare(const C* s) const {
-		//TODO(oldman):用一遍循环完成比较
-		return compare(StringPieceT(s));
-	}
-	int compare(size_t pos1, size_t count1, const C* s) const {
-		//TODO(oldman):用一遍循环完成比较
-		return compare(pos1, count1, StringPieceT(s));
-	}
-	int compare(size_t pos1, size_t count1, const C* s, size_t count2) const {
-		return compare(pos1, count1, StringPieceT(s, count2));
-	}
-	int compare(const std::basic_string<C>& str) const {
-		return compare(StringPieceT(str.data(), str.size()));
-	}
-	int compare(size_t pos1, size_t count1, const std::basic_string<C>& str) const {
-		return compare(pos1, count1, StringPieceT(str.data(), str.size()));
-	}
-	int compare(size_t pos1, size_t count1, const std::basic_string<C>& str, size_t pos2, size_t count2) const {
-			return compare(pos1, count1, StringPieceT(str.data(), str.size()), pos2, count2);
-	}
-	int compare(const StringPieceT& str) const {
-		return compare(0, str.size(), str);
-	}
-	int compare(size_t pos1, size_t count1, const StringPieceT& str) const {
-		return compare(pos1, count1, str, 0, str.size());
-	}
-	int compare(size_t pos1, size_t count1, const StringPieceT& str, size_t pos2, size_t count2) const {
-		assert (pos1 < size() && pos2 < str.size());
-		size_t len1 = std::min(count1, size() - pos1);
-		size_t len2 = std::min(count2, str.size() - pos2);
-		int r = memcmp(data(), str.data(), std::min(len1, len2) * sizeof(C));
-		return r != 0 ? r : len1 - len2;
-	}
+		//string opertion: find_last_of
+		size_t find_last_of(C c, size_t pos = 0) const {
+			return find_last_of(&c, pos, 1);
+		}
+		size_t find_last_of(const C* s, size_t pos, size_t count) const {
+			return find_last_of(StringPieceT(s, count), pos);
+		}
+		size_t find_last_of(const C* s, size_t pos = 0) const {
+			//TODO(oldman):用一遍循环完成查找
+			return find_last_of(StringPieceT(s), pos);
+		}
+		size_t find_last_of(const std::basic_string<C>& str, size_t pos = 0) const {
+			return find_last_of(StringPieceT(str), pos);
+		}
+		size_t find_last_of(const StringPieceT& str, size_t pos = npos) const {
+			for (const_reverse_iterator it = rbegin() + pos; it < rend(); ++it) {
+				if (str.find(*it) != npos) {
+					return implicit_cast<size_t>(it.base() - begin());
+				}
+			}
+			return npos;
+		}
+
+		//string opertion: find_last_not_of
+		size_t find_last_not_of(C c, size_t pos = 0) const {
+			return find_last_not_of(&c, pos, 1);
+		}
+		size_t find_last_not_of(const C* s, size_t pos, size_t count) const {
+			return find_last_not_of(StringPieceT(s, count), pos);
+		}
+		size_t find_last_not_of(const C* s, size_t pos = 0) const {
+			//TODO(oldman):用一遍循环完成查找
+			return find_last_not_of(StringPieceT(s), pos);
+		}
+		size_t find_last_not_of(const std::basic_string<C>& str, size_t pos = 0) const {
+			return find_last_not_of(StringPieceT(str), pos);
+		}
+		size_t find_last_not_of(const StringPieceT& str, size_t pos = npos) const {
+			for (const_reverse_iterator it = rbegin() + pos; it < rend(); ++it) {
+				if (str.find(*it) == npos) {
+					return implicit_cast<size_t>(it.base() - begin());
+				}
+			}
+			return npos;
+		}
+
+		//compare
+		int compare(const C* s) const {
+			//TODO(oldman):用一遍循环完成比较
+			return compare(StringPieceT(s));
+		}
+		int compare(size_t pos1, size_t count1, const C* s) const {
+			//TODO(oldman):用一遍循环完成比较
+			return compare(pos1, count1, StringPieceT(s));
+		}
+		int compare(size_t pos1, size_t count1, const C* s, size_t count2) const {
+			return compare(pos1, count1, StringPieceT(s, count2));
+		}
+		int compare(const std::basic_string<C>& str) const {
+			return compare(StringPieceT(str.data(), str.size()));
+		}
+		int compare(size_t pos1, size_t count1, const std::basic_string<C>& str) const {
+			return compare(pos1, count1, StringPieceT(str.data(), str.size()));
+		}
+		int compare(size_t pos1, size_t count1, const std::basic_string<C>& str, size_t pos2, size_t count2) const {
+				return compare(pos1, count1, StringPieceT(str.data(), str.size()), pos2, count2);
+		}
+		int compare(const StringPieceT& str) const {
+			return compare(0, str.size(), str);
+		}
+		int compare(size_t pos1, size_t count1, const StringPieceT& str) const {
+			return compare(pos1, count1, str, 0, str.size());
+		}
+		int compare(size_t pos1, size_t count1, const StringPieceT& str, size_t pos2, size_t count2) const {
+			assert (pos1 < size() && pos2 < str.size());
+			size_t len1 = std::min(count1, size() - pos1);
+			size_t len2 = std::min(count2, str.size() - pos2);
+			int r = memcmp(data(), str.data(), std::min(len1, len2) * sizeof(C));
+			return r != 0 ? r : len1 - len2;
+		}
+
+		//bool operator
+		bool operator<(const StringPieceT& other) const {
+			return compare(other) < 0;
+		}
+		bool operator>(const StringPieceT& other) const {
+			return compare(other) > 0;
+		}
+		bool operator==(const StringPieceT& other) const {
+			return compare(other) == 0;
+		}
+		bool operator<=(const StringPieceT& other) const {
+			return !operator>(other);
+		}
+		bool operator>=(const StringPieceT& other) const {
+			return !operator<(other);
+		}
+		bool operator!=(const StringPieceT& other) const {
+			return !operator==(other);
+		}
+		bool operator<(const std::basic_string<C>& other) const {
+			return compare(other) < 0;
+		}
+		bool operator>(const std::basic_string<C>& other) const {
+			return compare(other) > 0;
+		}
+		bool operator==(const std::basic_string<C>& other) const {
+			return compare(other) == 0;
+		}
+		bool operator<=(const std::basic_string<C>& other) const {
+			return !operator>(other);
+		}
+		bool operator>=(const std::basic_string<C>& other) const {
+			return !operator<(other);
+		}
+		bool operator!=(const std::basic_string<C>& other) const {
+			return !operator==(other);
+		}
+
+	private:
+		C* ptr_;
+		size_t size_;
+	};
+
+	//StringPiece StringPiece16
+	typedef StringPieceT<char> StringPiece;
+	typedef StringPieceT<wchar_t> StringPiece16;
 
 	//bool operator
-	bool operator<(const StringPieceT& other) const {
-		return compare(other) < 0;
+	template <typename C>
+	inline bool operator < (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
+		return s2 > s1;
 	}
-	bool operator>(const StringPieceT& other) const {
-		return compare(other) > 0;
+	template <typename C>
+	inline bool operator > (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
+		return s2 < s1;
 	}
-	bool operator==(const StringPieceT& other) const {
-		return compare(other) == 0;
+	template <typename C>
+	inline bool operator == (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
+		return s2 == s1;
 	}
-	bool operator<=(const StringPieceT& other) const {
-		return !operator>(other);
+	template <typename C>
+	inline bool operator <= (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
+		return s2 >= s1;
 	}
-	bool operator>=(const StringPieceT& other) const {
-		return !operator<(other);
+	template <typename C>
+	inline bool operator >= (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
+		return s2 <= s1;
 	}
-	bool operator!=(const StringPieceT& other) const {
-		return !operator==(other);
+	template <typename C>
+	inline bool operator != (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
+		return s2 != s1;
 	}
-	bool operator<(const std::basic_string<C>& other) const {
-		return compare(other) < 0;
-	}
-	bool operator>(const std::basic_string<C>& other) const {
-		return compare(other) > 0;
-	}
-	bool operator==(const std::basic_string<C>& other) const {
-		return compare(other) == 0;
-	}
-	bool operator<=(const std::basic_string<C>& other) const {
-		return !operator>(other);
-	}
-	bool operator>=(const std::basic_string<C>& other) const {
-		return !operator<(other);
-	}
-	bool operator!=(const std::basic_string<C>& other) const {
-		return !operator==(other);
-	}
-
-private:
-	C* ptr_;
-	size_t size_;
-};
-
-//StringPiece StringPiece16
-typedef StringPieceT<char> StringPiece;
-typedef StringPieceT<wchar_t> StringPiece16;
-
-//bool operator
-template <typename C>
-inline bool operator < (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
-	return s2 > s1;
 }
-template <typename C>
-inline bool operator > (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
-	return s2 < s1;
-}
-template <typename C>
-inline bool operator == (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
-	return s2 == s1;
-}
-template <typename C>
-inline bool operator <= (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
-	return s2 >= s1;
-}
-template <typename C>
-inline bool operator >= (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
-	return s2 <= s1;
-}
-template <typename C>
-inline bool operator != (const std::basic_string<C>& s1, const StringPieceT<C>& s2) {
-	return s2 != s1;
-}
-
-#endif //#ifndef BASE_STRING_STRING_PIECE
+#endif //#ifndef BASE_STRING_STRING_PIECE_H__
