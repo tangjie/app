@@ -57,6 +57,12 @@
     <ClInclude Include="framework\ui_message_pump.h">
       <Filter>framework</Filter>
     </ClInclude>
+    <ClInclude Include="thread\thread_local.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\singleton.h">
+      <Filter>memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
@@ -76,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="framework\ui_message_pump.cpp">
       <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="thread\thread_local.cpp">
+      <Filter>thread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
