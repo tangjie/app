@@ -16,12 +16,15 @@
     <ClInclude Include="framework\message_pump.h" />
     <ClInclude Include="framework\observer_list.h" />
     <ClInclude Include="framework\task.h" />
+    <ClInclude Include="framework\ui_message_pump.h" />
     <ClInclude Include="memory\casts.h" />
     <ClInclude Include="memory\scoped_ptr.h" />
     <ClInclude Include="string\string_piece.h" />
     <ClInclude Include="string\string_piece_inl.h" />
+    <ClInclude Include="memory\singleton.h" />
     <ClInclude Include="synchronization\lock.h" />
     <ClInclude Include="thread\thread.h" />
+    <ClInclude Include="thread\thread_local.h" />
     <ClInclude Include="time\time.h" />
     <ClInclude Include="util\invoke_helper.h" />
     <ClInclude Include="util\noncopyable.h" />
@@ -29,8 +32,10 @@
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp" />
     <ClCompile Include="framework\message_pump.cpp" />
+    <ClCompile Include="framework\ui_message_pump.cpp" />
     <ClCompile Include="synchronization\lock.cpp" />
     <ClCompile Include="thread\thread.cpp" />
+    <ClCompile Include="thread\thread_local.cpp" />
     <ClCompile Include="time\time.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

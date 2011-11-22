@@ -1,12 +1,14 @@
 /*
- * This file use to implement UI message pump
+ * This file use to implement UI message pump,Modify from http://src.chromium.org/svn/trunk/src/base/message_pump_win.h
  */
 
-#ifdef BASE_FRAMEWORK_UI_MESSAGE_PUMP_H__
+#ifndef BASE_FRAMEWORK_UI_MESSAGE_PUMP_H__
 #define BASE_FRAMEWORK_UI_MESSAGE_PUMP_H__
+
 
 #include <Windows.h>
 #include "base/framework/message_pump.h"
+#include "base/framework/observer_list.h"
 #include "base/time/time.h"
 
 namespace base {
@@ -20,24 +22,26 @@ namespace base {
       virtual bool Dispatch(const MSG &msg) = 0;
     };
 
-    class UIListener {
+    class UIObserver {
     public:
       virtual void PreProcessMessage(const MSG &msg) = 0;
       virtual void PostProcessMessage(const MSG &msg) = 0;
     };
-
-    void AddUIListener(UIListener *listener);
-    void RemoveListener(UIListener *listener);
+	void PreProcessMessage(const MSG& msg);
+	void PostProcessMessage(const MSG& msg);
+    void AddUIObserver(UIObserver *listener);
+    void RemoveUIObserver(UIObserver *listener);
+	// Start UI message punp.
     void RunWithDispatcher(Delegate *delegate, Dispatcher *dispatcher);
     virtual void Run(Delegate *delegate);
     virtual void Quit();
-    virtual void DispatchWork();
-    virtual void DispatchDelayWork(const TimeTicks &next_time);
-    UIMessagePump() : have_work_(0), state_(NULL) {
+    virtual void ScheduleWork();
+    virtual void ScheduleDelayWork(const TimeTicks &delayed_work_time);
+    UIMessagePump() : have_work_(0), state_(nullptr), hwnd_(nullptr) {
+		ui_observers_ = std::shared_ptr<ObserverList<UIObserver>>(new ObserverList<UIObserver>());
     }
 
-    virtual ~UIMessagePump() {
-    }
+    virtual ~UIMessagePump();
 
   private:
     struct RunState {
@@ -47,18 +51,22 @@ namespace base {
       Dispatcher *dispatcher_;
     };
 
-    static LRESULT WindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
-    int GetCurrentDelay();
+    static LRESULT CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
+    int GetCurrentDelay() const;
     void DoRunLoop();
     void InitMessageWnd();
+	 void WaitForWork();
     void HandleWorkMessage();
     void HandleTimerMessage();
+	bool ProcessNextWindowsMessage();
+	bool ProcessMessageHelper(const MSG& msg);
+	bool ProcessPumpReplacementMessage();
 
     RunState* state_;
     long have_work_;
-    TimeTicks next_time_;
+    TimeTicks delayed_work_time_;
     HWND hwnd_;
-    ListenerList<UIListener> ui_listeners_;
+    std::shared_ptr<ObserverList<UIObserver>> ui_observers_;
   };
 }
 
