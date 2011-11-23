@@ -198,7 +198,7 @@ namespace base {
 			return -1;
 		}
 		double time_out = ceil((delayed_work_time_ - TimeTicks::Now()).ToInternalValue() / 1000.0);
-		int delay = implicit_cast<int>(time_out);
+		int delay = static_cast<int>(time_out);
 		delay = min(delay, 0);
 		return delay;
 	}
