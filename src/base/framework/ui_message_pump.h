@@ -29,8 +29,8 @@ namespace base {
     };
 	void PreProcessMessage(const MSG& msg);
 	void PostProcessMessage(const MSG& msg);
-    void AddUIObserver(UIObserver *listener);
-    void RemoveUIObserver(UIObserver *listener);
+    void AddUIObserver(UIObserver *observer);
+    void RemoveUIObserver(UIObserver *observer);
 	// Start UI message punp.
     void RunWithDispatcher(Delegate *delegate, Dispatcher *dispatcher);
     virtual void Run(Delegate *delegate);
@@ -39,6 +39,7 @@ namespace base {
     virtual void ScheduleDelayWork(const TimeTicks &delayed_work_time);
     UIMessagePump() : have_work_(0), state_(nullptr), hwnd_(nullptr) {
 		ui_observers_ = std::shared_ptr<ObserverList<UIObserver>>(new ObserverList<UIObserver>());
+		InitMessageWnd();
     }
 
     virtual ~UIMessagePump();

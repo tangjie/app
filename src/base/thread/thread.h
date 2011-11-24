@@ -32,12 +32,12 @@ namespace base {
 	public:
 		Thread();
 		~Thread();
-		// the runnable interface is used to execute thread work in fact.it can be registered by set_runnable_delegate method.
+		// The runnable interface is used to execute thread work in fact.it can be registered by set_runnable_delegate method.
 		class Runnable {
 		public:
 			virtual void Run() = 0;
 		};
-		// start a thread if a thread is not started.
+		// Start a thread if a thread is not started.
 		bool Start();
 		// Stop method will wait for the thread end and return.
 		void Stop();

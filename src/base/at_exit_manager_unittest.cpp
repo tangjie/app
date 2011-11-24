@@ -8,7 +8,7 @@ void foo(void* param) {
 	*static_cast<int*>(param) = 1;
 }
 
-class Calculateor {
+class Calculator {
 public:
 	static void Increase(void* origin_value) {
 		++(*static_cast<int*>(origin_value));
@@ -46,20 +46,20 @@ TEST(AtExitManager, Basic) {
 	{
 		base::AtExitManager manager;
 		for (int k = 0; k < 10; k++ ) {
-			base::AtExitManager::RegisterCallback(Calculateor::Increase, &origin_num);
+			base::AtExitManager::RegisterCallback(Calculator::Increase, &origin_num);
 			EXPECT_EQ(0, origin_num);
 		}
 		base::AtExitManager::ProcessCallbacksNow();
 		EXPECT_EQ(10, origin_num);
 		for (int k = 0; k < 10; k++ ) {
-			base::AtExitManager::RegisterCallback(Calculateor::Decrease, &origin_num);
+			base::AtExitManager::RegisterCallback(Calculator::Decrease, &origin_num);
 			EXPECT_EQ(10, origin_num);
 		}
 		base::AtExitManager::ProcessCallbacksNow();
 		EXPECT_EQ(0, origin_num);
 		for (int k = 0; k < 10; k++ ) {
-			base::AtExitManager::RegisterCallback(Calculateor::Decrease, &origin_num);
-			base::AtExitManager::RegisterCallback(Calculateor::Increase, &origin_num);
+			base::AtExitManager::RegisterCallback(Calculator::Decrease, &origin_num);
+			base::AtExitManager::RegisterCallback(Calculator::Increase, &origin_num);
 		}
 		EXPECT_EQ(0, origin_num);
 	}

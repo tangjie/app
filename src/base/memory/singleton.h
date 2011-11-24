@@ -2,8 +2,10 @@
 #define BASE_MEMORY_SINGLETON_H__
 
 #include <Windows.h>
+#include "base/at_exit_manager.h"
 #include "base/base_types.h"
 #include "base/util/noncopyable.h"
+
 
 namespace base {
 	enum CreateInstanceState {
@@ -38,7 +40,7 @@ namespace base {
 			if (InterlockedExchange(&state_, static_cast<LONG>(kCreating)) == kNotCreate) {
 				// only the first thread modify the value of state_ can get here.
 				instance_ = Traits::New();
-				// TODO: register exit manager to delete the instance! by tangjie 2011-11-22.
+				AtExitManager::RegisterCallback(OnExit, nullptr);
 				InterlockedExchange(&state_, static_cast<LONG>(kCreated));
 				return instance_;
 			}else {
@@ -50,12 +52,15 @@ namespace base {
 				if (state_ == kCreated) {
 					break;
 				}
-				// TODO: move Sleep(0) to Thread object. by tangjie 2011-11-22.
+				// TODO(tangjie): move Sleep(0) to Thread object. 
 				Sleep(0);
 			}
 			return instance_;
 		}
 	private:
+		static void OnExit(void *params) {
+			Traits::Delete(instance_);
+		}
 		friend Type* Type::GetInstance();
 		Singleton() {
 		}
