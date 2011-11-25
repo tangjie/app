@@ -56,12 +56,12 @@ namespace base {
 
 	template<class T, class Method>
 	inline CancelableTask* MakeRunnableMethod(T *obj, Method method) {
-		return new RunnableMethod<T, Method, std::tr1::_Nil>(obj, method, std::tr1::make_tuple());
+		return new RunnableMethod<T, Method, std::tr1::tuple<std::tr1::_Nil>>(obj, method, std::tr1::make_tuple(std::tr1::_Nil_obj));
 	}
 
 	template<class T, class Method, class A>
 	inline CancelableTask* MakeRunnableMethod(T *obj, Method method, const A &a) {
-		return new RunnableMethod(obj, method, std::tr1::make_tuple(a));
+		return new RunnableMethod<T, Method, std::tr1::tuple<A>>(obj, method, std::tr1::make_tuple(a));
 	}
 }
 #endif// BASE_FRAMEWORK_TASK_H__

@@ -213,9 +213,8 @@ namespace base {
 		//TODO(tangjie): add nestable task process.
 		if (state_->quit_received_) {
 			pump_->Quit();
-			return false;
 		}
-		return true;
+		return false;
 	}
 
 	bool MessageLoop::DeferOrRunPendingTask(const PendingTask& task) {

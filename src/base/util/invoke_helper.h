@@ -22,9 +22,7 @@ namespace base {
 
 	template<class T, class Method, class A>
 	inline void DispatchToMethod(T *obj, Method method, const tuple<A> &arg) {
-		auto a;
-		std::tr1::tie(a) = arg;
-		(obj->*method)(a);
+		(obj->*method)(get<0>(arg));
 	}
 }
 

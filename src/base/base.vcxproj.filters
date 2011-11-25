@@ -74,6 +74,9 @@
       <Filter>memory</Filter>
     </ClInclude>
     <ClInclude Include="at_exit_manager.h" />
+    <ClInclude Include="thread\thread_helper.h">
+      <Filter>thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
@@ -98,5 +101,8 @@
       <Filter>thread</Filter>
     </ClCompile>
     <ClCompile Include="at_exit_manager.cpp" />
+    <ClCompile Include="thread\thread_helper.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
