@@ -120,7 +120,6 @@ namespace base {
 	}
 
 	TimeTicks MessageLoop::CalculateDelayedRuntime(int64_t delay_ms) {
-		assert(delay_ms > 0);
 		TimeTicks delayed_run_time;
 		if (delay_ms > 0) {
 			delayed_run_time = TimeTicks::Now() + TimeSpan::FromMilliseconds(delay_ms);
