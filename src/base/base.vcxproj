@@ -13,11 +13,12 @@
   <ItemGroup>
     <ClInclude Include="at_exit_manager.h" />
     <ClInclude Include="base_types.h" />
+    <ClInclude Include="framework\message_pump_default.h" />
     <ClInclude Include="framework\message_loop.h" />
     <ClInclude Include="framework\message_pump.h" />
+    <ClInclude Include="framework\message_pump_ui.h" />
     <ClInclude Include="framework\observer_list.h" />
     <ClInclude Include="framework\task.h" />
-    <ClInclude Include="framework\ui_message_pump.h" />
     <ClInclude Include="memory\casts.h" />
     <ClInclude Include="memory\scoped_ptr.h" />
     <ClInclude Include="string\string_piece.h" />
@@ -33,9 +34,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="at_exit_manager.cpp" />
+    <ClCompile Include="framework\message_pump_default.cpp" />
     <ClCompile Include="framework\message_loop.cpp" />
     <ClCompile Include="framework\message_pump.cpp" />
-    <ClCompile Include="framework\ui_message_pump.cpp" />
+    <ClCompile Include="framework\message_pump_ui.cpp" />
     <ClCompile Include="synchronization\lock.cpp" />
     <ClCompile Include="thread\thread.cpp" />
     <ClCompile Include="thread\thread_helper.cpp" />

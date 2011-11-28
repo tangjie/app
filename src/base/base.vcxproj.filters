@@ -64,9 +64,6 @@
     <ClInclude Include="string\string_piece.h">
       <Filter>string</Filter>
     </ClInclude>
-    <ClInclude Include="framework\ui_message_pump.h">
-      <Filter>framework</Filter>
-    </ClInclude>
     <ClInclude Include="thread\thread_local.h">
       <Filter>thread</Filter>
     </ClInclude>
@@ -76,6 +73,12 @@
     <ClInclude Include="at_exit_manager.h" />
     <ClInclude Include="thread\thread_helper.h">
       <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\message_pump_default.h">
+      <Filter>framework</Filter>
+    </ClInclude>
+    <ClInclude Include="framework\message_pump_ui.h">
+      <Filter>framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -94,15 +97,18 @@
     <ClCompile Include="thread\thread.cpp">
       <Filter>thread</Filter>
     </ClCompile>
-    <ClCompile Include="framework\ui_message_pump.cpp">
-      <Filter>framework</Filter>
-    </ClCompile>
     <ClCompile Include="thread\thread_local.cpp">
       <Filter>thread</Filter>
     </ClCompile>
     <ClCompile Include="at_exit_manager.cpp" />
     <ClCompile Include="thread\thread_helper.cpp">
       <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\message_pump_default.cpp">
+      <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\message_pump_ui.cpp">
+      <Filter>framework</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

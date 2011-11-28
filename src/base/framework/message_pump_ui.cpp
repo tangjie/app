@@ -4,7 +4,7 @@
 
 #include <assert.h>
 #include <math.h>
-#include "base/framework/ui_message_pump.h"
+#include "base/framework/message_pump_ui.h"
 namespace base {
 	static const wchar_t kWndClass[] = L"App_MessagePumpWindow";
 	static const int kMsgHaveWork = WM_USER + 1;
