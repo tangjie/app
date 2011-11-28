@@ -24,6 +24,11 @@ namespace base {
 	inline void DispatchToMethod(T *obj, Method method, const tuple<A> &arg) {
 		(obj->*method)(get<0>(arg));
 	}
+
+	template<class T, class Method, class A, class B>
+	inline void DispatchToMethod(T *obj, Method method, const tuple<A, B> &arg) {
+		(obj->*method)(get<0>(arg), get<1>(arg));
+	}
 }
 
 #endif// BASE_FRAMEWORK_TASK_BUILDER_H__

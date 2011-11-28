@@ -2,7 +2,7 @@
 
 namespace base {
 	struct ThreadParams{
-		ThreadHelper::ThreadCallback *callback;
+		ThreadHelper::ThreadCallback callback;
 		bool joinable;
 	};
 
@@ -13,7 +13,7 @@ namespace base {
 		return 0;
 	}
 
-	bool ThreadHelper::CreateThreadInternal(ThreadCallback *callback, ThreadHandle *handle) {
+	bool ThreadHelper::CreateThreadInternal(ThreadCallback callback, ThreadHandle *handle) {
 		ThreadParams *thread_params = new ThreadParams();
 		thread_params->callback = callback;
 		thread_params->joinable = (handle == nullptr);
@@ -36,11 +36,11 @@ namespace base {
 		return true;
 	}
 
-	bool ThreadHelper::CreateNonJoinable(ThreadCallback *callback) {
+	bool ThreadHelper::CreateNonJoinable(ThreadCallback callback) {
 		return CreateThreadInternal(callback, nullptr);
 	}
 
-	bool ThreadHelper::Create(ThreadCallback *callback, ThreadHandle *handle) {
+	bool ThreadHelper::Create(ThreadCallback callback, ThreadHandle *handle) {
 		assert(handle != nullptr);
 		return CreateThreadInternal(callback, handle);
 	}

@@ -5,6 +5,7 @@
 #ifndef BASE_FRAMEWORK_TASK_H__
 #define BASE_FRAMEWORK_TASK_H__
 
+#include <memory>
 #include "base/util/invoke_helper.h"
 
 namespace base {
@@ -55,13 +56,18 @@ namespace base {
 	};
 
 	template<class T, class Method>
-	inline CancelableTask* MakeRunnableMethod(T *obj, Method method) {
-		return new RunnableMethod<T, Method, std::tr1::tuple<std::tr1::_Nil>>(obj, method, std::tr1::make_tuple(std::tr1::_Nil_obj));
+	inline std::shared_ptr<CancelableTask> MakeRunnableMethod(T *obj, Method method) {
+		return std::shared_ptr<CancelableTask>(new RunnableMethod<T, Method, std::tr1::tuple<std::tr1::_Nil>>(obj, method, std::tr1::make_tuple(std::tr1::_Nil_obj)));
 	}
 
 	template<class T, class Method, class A>
-	inline CancelableTask* MakeRunnableMethod(T *obj, Method method, const A &a) {
-		return new RunnableMethod<T, Method, std::tr1::tuple<A>>(obj, method, std::tr1::make_tuple(a));
+	inline std::shared_ptr<CancelableTask> MakeRunnableMethod(T *obj, Method method, const A &a) {
+		return std::shared_ptr<CancelableTask>(new RunnableMethod<T, Method, std::tr1::tuple<A>>(obj, method, std::tr1::make_tuple(a)));
+	}
+
+	template<class T, class Method, class A, class B>
+	inline std::shared_ptr<CancelableTask> MakeRunnableMethod(T *obj, Method method, const A &a, const B &b) {
+		return std::shared_ptr<CancelableTask>(new RunnableMethod<T, Method, std::tr1::tuple<A, B>>(obj, method, std::tr1::make_tuple(a, b)));
 	}
 }
 #endif// BASE_FRAMEWORK_TASK_H__

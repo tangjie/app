@@ -57,8 +57,8 @@ namespace base {
 		void RunInternal();
 		void Quit();
 		void QuitNow();
-		void PostTask(Task *task);
-		void PostDelayTask(Task *task, int64_t delay_ms);
+		void PostTask(std::shared_ptr<Task> task);
+		void PostDelayTask(std::shared_ptr<Task> task, int64_t delay_ms);
 	protected:
 		struct RunState {
 			int run_depth_;
@@ -76,7 +76,7 @@ namespace base {
 		};
 
 		struct PendingTask {
-			PendingTask(Task *task, TimeTicks delayed_run_time);
+			PendingTask(std::shared_ptr<Task> task, TimeTicks delayed_run_time);
 			~PendingTask();
 			bool operator<(const PendingTask &other) const;
 			std::shared_ptr<Task> task_;

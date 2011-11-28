@@ -105,14 +105,14 @@ namespace base {
 		}
 	}
 
-	void MessageLoop::PostTask(Task *task) {
+	void MessageLoop::PostTask(std::shared_ptr<Task> task) {
 		if (task != nullptr) {
 			PendingTask pending_task(task, CalculateDelayedRuntime(0));
 			AddToIncomingQueue(pending_task);
 		}
 	}
 
-	void MessageLoop::PostDelayTask(Task *task, int64_t delay_ms) {
+	void MessageLoop::PostDelayTask(std::shared_ptr<Task> task, int64_t delay_ms) {
 		if (task != nullptr) {
 			PendingTask pending_task(task, CalculateDelayedRuntime(delay_ms));
 			AddToIncomingQueue(pending_task);
@@ -261,7 +261,7 @@ namespace base {
 		loop_->state_ = prevous_state_;
 	}
 
-	MessageLoop::PendingTask::PendingTask(Task *task, TimeTicks delayed_run_time) : task_(task), delayed_run_time_(delayed_run_time) {
+	MessageLoop::PendingTask::PendingTask(std::shared_ptr<Task> task, TimeTicks delayed_run_time) : task_(task), delayed_run_time_(delayed_run_time) {
 
 	}
 

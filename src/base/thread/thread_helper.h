@@ -22,13 +22,13 @@ namespace base {
 
 	class ThreadHelper {
 	public:
-		typedef CancelableTask ThreadCallback;
+		typedef std::shared_ptr<CancelableTask> ThreadCallback;
 		typedef void* ThreadHandle;
 		typedef DWORD ThreadId;
 		// Create a thread. handle will return the Handle to the thread.it can not be null.
-		static bool Create(ThreadCallback *callback, ThreadHandle *handle);
+		static bool Create(ThreadCallback callback, ThreadHandle *handle);
 		// NonJoinable means you can never wait the the thread.it has been out of control.
-		static bool CreateNonJoinable(ThreadCallback *callback);
+		static bool CreateNonJoinable(ThreadCallback callback);
 		static void Sleep(int sleep_ms);
 		// Switch to other thread.
 		static void YliedCurrentThread();
@@ -40,7 +40,7 @@ namespace base {
 		ThreadHelper(){
 		}
 
-		static bool CreateThreadInternal(ThreadCallback *callback, ThreadHandle *handle);
+		static bool CreateThreadInternal(ThreadCallback callback, ThreadHandle *handle);
 	};
 }
 
