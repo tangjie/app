@@ -80,6 +80,9 @@
     <ClInclude Include="framework\message_pump_ui.h">
       <Filter>framework</Filter>
     </ClInclude>
+    <ClInclude Include="synchronization\waitable_event.h">
+      <Filter>synchronization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
@@ -109,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="framework\message_pump_ui.cpp">
       <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="synchronization\waitable_event.cpp">
+      <Filter>synchronization</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

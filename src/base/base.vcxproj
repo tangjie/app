@@ -25,6 +25,7 @@
     <ClInclude Include="string\string_piece_inl.h" />
     <ClInclude Include="memory\singleton.h" />
     <ClInclude Include="synchronization\lock.h" />
+    <ClInclude Include="synchronization\waitable_event.h" />
     <ClInclude Include="thread\thread.h" />
     <ClInclude Include="thread\thread_helper.h" />
     <ClInclude Include="thread\thread_local.h" />
@@ -39,6 +40,7 @@
     <ClCompile Include="framework\message_pump.cpp" />
     <ClCompile Include="framework\message_pump_ui.cpp" />
     <ClCompile Include="synchronization\lock.cpp" />
+    <ClCompile Include="synchronization\waitable_event.cpp" />
     <ClCompile Include="thread\thread.cpp" />
     <ClCompile Include="thread\thread_helper.cpp" />
     <ClCompile Include="thread\thread_local.cpp" />

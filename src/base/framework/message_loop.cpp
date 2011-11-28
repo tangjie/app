@@ -176,6 +176,10 @@ namespace base {
 				work_queue_.pop();
 				if (!task.delayed_run_time_.IsNull()) {
 					AddToDelayedQueue(task);
+					// if task is the first one which was pushed into queue. need to schedule delay work.
+					if (delayed_work_queue_.top().sequence_num_ == task.sequence_num_) {
+						pump_->ScheduleDelayWork(task.delayed_run_time_);
+					}
 				}else {
 					if (DeferOrRunPendingTask(task)) {
 						return true;
