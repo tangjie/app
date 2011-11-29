@@ -8,9 +8,10 @@
 
 #include <Windows.h>
 #include "base/base_types.h"
+#include "base/util/noncopyable.h"
 
 namespace base {
-	class WaitableEvent {
+	class WaitableEvent : public noncopyable {
 	public:
 		// If manual_reset is true, then to set the event state to non-signaled, a
 		// consumer must call the Reset method.  If this parameter is false, then the

@@ -8,6 +8,7 @@
 #include "base/base_types.h"
 #include "base/framework/observer_list.h"
 #include "base/framework/task.h"
+#include "base/framework/message_pump_default.h"
 #include "base/framework/message_pump_ui.h"
 #include "base/synchronization/lock.h"
 #include "base/util/noncopyable.h"

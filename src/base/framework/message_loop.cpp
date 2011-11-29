@@ -4,7 +4,7 @@
 namespace base {
 	MessageLoop::MessageLoop(MessageLoopType type) : type_(type), state_(nullptr), next_sequence_num_(0) {
 		if (type_ == kDefaultMessageLoop) {
-			//TODO(tangjie):create default message pump;
+			pump_ = std::shared_ptr<MessagePump>(new DefaultMessagePump());
 		}else if (type_ == kUIMessageLoop) {
 			pump_ = std::shared_ptr<MessagePump>(new UIMessagePump());
 		}else if (type_ == kIOMessageLoop) {
