@@ -15,6 +15,9 @@
       <Filter>string</Filter>
     </ClCompile>
     <ClCompile Include="at_exit_manager_unittest.cpp" />
+    <ClCompile Include="synchronization\waitable_event_unittest.cpp">
+      <Filter>synchronization</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="memory">
@@ -28,6 +31,9 @@
     </Filter>
     <Filter Include="string">
       <UniqueIdentifier>{c5a49eed-fb1d-4aef-bf50-f2964767aa3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="synchronization">
+      <UniqueIdentifier>{e06a72c0-9f20-4bf5-83d7-c79c29ac5c3d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

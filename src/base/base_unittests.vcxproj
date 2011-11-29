@@ -16,6 +16,7 @@
     <ClCompile Include="framework\observer_list_unittest.cpp" />
     <ClCompile Include="memory\scoped_ptr_unittest.cpp" />
     <ClCompile Include="string\string_piece_unittest.cpp" />
+    <ClCompile Include="synchronization\waitable_event_unittest.cpp" />
     <ClCompile Include="time\time_unitttest.cpp" />
   </ItemGroup>
   <ItemGroup>
