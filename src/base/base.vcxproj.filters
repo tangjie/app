@@ -22,6 +22,9 @@
     <Filter Include="string">
       <UniqueIdentifier>{043b24b4-1d1c-48a8-b707-77efe16e7c79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{d5aa2ff9-7bb8-4893-8361-273cef3ea602}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework\message_pump.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="synchronization\waitable_event.h">
       <Filter>synchronization</Filter>
+    </ClInclude>
+    <ClInclude Include="test\test_with_exit_manager.h">
+      <Filter>test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

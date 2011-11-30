@@ -1,9 +1,9 @@
 ﻿#include "base/thread/thread.h"
-#include "gtest/gtest.h"
+#include "base/test/test_with_exit_manager.h"
 
 using base::Thread;
 
-TEST(Thread, Basic) {
+TEST_WITH_EM(Thread, Basic) {
 	Thread thread;
 	EXPECT_FALSE(thread.was_started());
 	EXPECT_FALSE(thread.IsRunning());

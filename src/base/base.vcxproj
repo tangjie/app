@@ -26,6 +26,7 @@
     <ClInclude Include="memory\singleton.h" />
     <ClInclude Include="synchronization\lock.h" />
     <ClInclude Include="synchronization\waitable_event.h" />
+    <ClInclude Include="test\test_with_exit_manager.h" />
     <ClInclude Include="thread\thread.h" />
     <ClInclude Include="thread\thread_helper.h" />
     <ClInclude Include="thread\thread_local.h" />
