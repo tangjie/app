@@ -19,12 +19,13 @@ namespace base {
 		// Suitable for low-latency, glitch-resistant audio.
 		kThreadPriorityRealtimeAudio
 	};
+	typedef std::shared_ptr<CancelableTask> ThreadCallback;
+	typedef void* ThreadHandle;
+	typedef DWORD ThreadId;
+	const ThreadId kInvalidThreadId = 0;
 
 	class ThreadHelper {
 	public:
-		typedef std::shared_ptr<CancelableTask> ThreadCallback;
-		typedef void* ThreadHandle;
-		typedef DWORD ThreadId;
 		// Create a thread. handle will return the Handle to the thread.it can not be null.
 		static bool Create(ThreadCallback callback, ThreadHandle *handle);
 		// NonJoinable means you can never wait the the thread.it has been out of control.

@@ -2,7 +2,7 @@
 
 namespace base {
 	struct ThreadParams{
-		ThreadHelper::ThreadCallback callback;
+		ThreadCallback callback;
 		bool joinable;
 	};
 

@@ -5,40 +5,28 @@
 #ifndef BASE_THREAD_THREAD_H__
 #define BASE_THREAD_THREAD_H__
 #include <assert.h>
-#include <process.h>
-#include <Windows.h>
 #include "base/base_types.h"
+#include "base/framework/message_loop.h"
+#include "base/synchronization/waitable_event.h"
+#include "base/thread/thread_helper.h"
 
 namespace base {
-	typedef uint32_t ThreadId;
-	typedef void* ThreadHandle;
-	//define the priority for thread, the default value of thread is kThreadPriorityNormal
-	enum ThreadPriority {
-		kThreadPriorityLow,
-		kThreadPriorityNormal,
-		kThreadPriorityHigh,
-		kThreadPriorityRealtime
-	};
-
-	enum ThreadState {
-		kInitialized,
-		kRunning,
-		kSuspend,
-		kTerminate,
-		kStoped
-	};
-
 	class Thread {
 	public:
+		struct Options{
+			Options(MessageLoop::MessageLoopType type=MessageLoop::kDefaultMessageLoop)
+				: message_loop_type_(type){
+			}
+
+			MessageLoop::MessageLoopType message_loop_type_;
+		};
+
 		Thread();
 		~Thread();
-		// The runnable interface is used to execute thread work in fact.it can be registered by set_runnable_delegate method.
-		class Runnable {
-		public:
-			virtual void Run() = 0;
-		};
 		// Start a thread if a thread is not started.
 		bool Start();
+		//
+		bool StartWithOptions(const Options &options);
 		// Stop method will wait for the thread end and return.
 		void Stop();
 		// Terminate will block the thread and return.
@@ -47,34 +35,47 @@ namespace base {
 		bool Suspend();
 		// Resume a thread.
 		bool Resume();
-		static void Sleep(int64_t milliseconds);
-		// Get the current active thread id of process
-		static ThreadId CurrentId();
 		ThreadId thread_id() const;
-		void set_thread_id(ThreadId thread_id);
 		ThreadHandle thread_handle() const;
-		ThreadPriority thread_priority() const;
-		void set_thread_priority(ThreadPriority thread_priority);
-		// Register a runnable delegate to tell the thread who will complete the work in fact.
-		void set_runnable_delegate(Runnable *delegate);
-		ThreadState thread_state();
+		MessageLoop* message_loop() const {
+			return message_loop_;
+		}
+
+		bool was_started() const {
+			return was_started_;
+		}
+
+		bool IsRunning() const {
+			return thread_id_ != kInvalidThreadId;
+		}
 	protected:
-		virtual void Execute() {
-			if (runnable_delegate_ != NULL) {
-				runnable_delegate_->Run();
+		// extra work before the thread start.
+		virtual void SetUp() {
+		}
+
+		virtual void Run(MessageLoop *message_loop) {
+			if (message_loop != nullptr) {
+				message_loop->Run();
 			}
 		};
 
+		// extra work before the thread end.
+		virtual void TearDown() {
+		}
+
 	private:
-		static uint32_t __stdcall ThreadProc(void* params);
+		void ThreadMain();
+		void StopInternal();
+		void Quit();
 		//Convert the ThreadPriority of thread to system identification priority level
-		int ConvertPriorityToSystemPriority(ThreadPriority thread_priority); 
-		ThreadState thread_state_;
 		ThreadId thread_id_;
 		ThreadHandle thread_handle_;
-		ThreadPriority thread_priority_;
-		//does smart_ptr performance better ?
-		Runnable *runnable_delegate_;
+		MessageLoop *message_loop_;
+		// Used to pass data to ThreadMain.
+		struct StartupData;
+		StartupData* startup_data_;
+		bool was_started_;
+		bool stopping_;
 	};
 }
 

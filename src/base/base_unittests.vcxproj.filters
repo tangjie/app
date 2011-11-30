@@ -18,6 +18,9 @@
     <ClCompile Include="synchronization\waitable_event_unittest.cpp">
       <Filter>synchronization</Filter>
     </ClCompile>
+    <ClCompile Include="thread\thread_unittest.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="memory">
@@ -34,6 +37,9 @@
     </Filter>
     <Filter Include="synchronization">
       <UniqueIdentifier>{e06a72c0-9f20-4bf5-83d7-c79c29ac5c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thread">
+      <UniqueIdentifier>{0e426393-e913-4b44-98ca-6b9b04c5b616}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
