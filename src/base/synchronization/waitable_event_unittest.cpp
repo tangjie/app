@@ -36,7 +36,7 @@ TEST(WaitableEvent, ManualBasic) {
 	CloseHandle(event.Release());
 	EXPECT_EQ(INVALID_HANDLE_VALUE, event.handle());
 	event.Signal();
-	EXPECT_FALSE(FALSE, event.WasSignaled());
+	EXPECT_FALSE(event.WasSignaled());
 }
 
 TEST(WaitableEvent, AutoBasic) {

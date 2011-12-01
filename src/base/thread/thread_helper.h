@@ -30,7 +30,7 @@ namespace base {
 		static bool Create(ThreadCallback callback, ThreadHandle *handle);
 		// NonJoinable means you can never wait the the thread.it has been out of control.
 		static bool CreateNonJoinable(ThreadCallback callback);
-		static void Sleep(int sleep_ms);
+		static void Sleep(int64_t sleep_ms);
 		// Switch to other thread.
 		static void YliedCurrentThread();
 		static DWORD CurrentId();

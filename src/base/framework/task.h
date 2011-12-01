@@ -35,7 +35,7 @@ namespace base {
 		}
 
 		~RunnableMethod() {
-			obj_ = NULL;
+			obj_ = nullptr;
 		}
 
 		virtual void Run() {
@@ -46,7 +46,7 @@ namespace base {
 
 		virtual void Cancel() {
 			T *obj = obj_;
-			obj_ = NULL;
+			obj_ = nullptr;
 		}
 
 	private:
@@ -68,6 +68,36 @@ namespace base {
 	template<class T, class Method, class A, class B>
 	inline std::shared_ptr<CancelableTask> MakeRunnableMethod(T *obj, Method method, const A &a, const B &b) {
 		return std::shared_ptr<CancelableTask>(new RunnableMethod<T, Method, std::tr1::tuple<A, B>>(obj, method, std::tr1::make_tuple(a, b)));
+	}
+
+	template<class Func, class Params>
+	class RunnableFunction : public CancelableTask {
+	public:
+		RunnableFunction(Func func, Params params) : func_(func), params_(params), was_canceled_(false) {
+		}
+
+		~RunnableFunction() {
+		}
+
+		virtual void Run() {
+			if (!was_canceled_ && func_) {
+				DispatchToFunction(func_, params_);
+			}
+		}
+
+		virtual void Cancel() {
+			was_canceled_ = true;
+		}
+
+	private:
+		Func func_;
+		Params params_;
+		bool was_canceled_;
+	};
+
+	template<class Func>
+	inline std::shared_ptr<CancelableTask> MakeRunnableFunction(Func func) {
+		return std::shared_ptr<CancelableTask>(new RunnableFunction<func, std::tr1::tuple<std::tr1::_Nil>>(func, std::tr1::make_tuple(std::tr1::_Nil_obj)));
 	}
 }
 #endif// BASE_FRAMEWORK_TASK_H__

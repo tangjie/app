@@ -72,8 +72,8 @@ namespace base {
 		::SetThreadPriority(handle, system_priority);
 	}
 
-	void ThreadHelper::Sleep(int sleep_ms) {
-		::Sleep(sleep_ms);
+	void ThreadHelper::Sleep(int64_t sleep_ms) {
+		::Sleep(static_cast<DWORD>(sleep_ms));
 	}
 
 	void ThreadHelper::YliedCurrentThread() {
