@@ -80,11 +80,18 @@ TEST(StringPiece, STLTest) {
 	EXPECT_EQ(f.find_first_not_of("="), StringPiece::npos);
 	EXPECT_EQ(f.find_last_not_of('='), StringPiece::npos);
 	EXPECT_EQ(f.find_last_not_of("="), StringPiece::npos);
+	std::string temp("123");
+	temp += '\0';
+	temp += "456";
+	StringPiece g(temp);
+	EXPECT_EQ(3, g.find('\0'));
+	g.replace(3, 1, '\n');
+	EXPECT_EQ(3, g.find('\n'));
 }
 
 TEST(StringPiece, SubstrTest) {
-	char buf[6] = {'a', 'b', 'c', 'd', 'e', 'f'};
-	StringPiece a(buf, 6);
+	char buf[7] = {'a', 'b', 'c', 'd', 'e', 'f' , '\0'};
+	StringPiece a(buf);
 	EXPECT_EQ(6, a.size());
 	TestForRandAccess(a, buf);
 	EXPECT_STREQ(a.substr().to_string().c_str(), a.to_string().c_str());
