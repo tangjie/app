@@ -14,14 +14,16 @@
 #include "base/at_exit_manager.h"
 #include "gtest/gtest.h"
 
-class TestWithExitManager : public testing::Test {
-protected:
-	base::AtExitManager at_manager;
-};
+namespace base {
+	class TestWithExitManager : public ::testing::Test {
+	protected:
+		AtExitManager at_manager;
+	};
+}
 
 #define TEST_WITH_EM(test_case_name, test_name)\
-	GTEST_TEST_(test_case_name, test_name, TestWithExitManager, \
-	::testing::internal::GetTypeId<TestWithExitManager>())
+	GTEST_TEST_(test_case_name, test_name, base::TestWithExitManager, \
+	::testing::internal::GetTypeId<base::TestWithExitManager>())
 
 #endif // #ifndef BASE_TEST_TSET_WITH_EXIT_MANAGER_H__
 

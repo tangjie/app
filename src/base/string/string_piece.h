@@ -175,7 +175,7 @@ namespace base {
 			return ptr_;
 		}
 		//substr
-		StringPieceT& substr(size_t pos = 0, size_t count = npos) {
+		StringPieceT substr(size_t pos = 0, size_t count = npos) {
 			assert(pos < size());
 			size_t n = (count == npos) ? (size() - pos) : std::min(size() - pos, count);
 			return StringPieceT(ptr_ + pos, n);
@@ -210,7 +210,7 @@ namespace base {
 			return f;
 		}
 		size_t find(const StringPieceT& str, size_t pos = 0) const{
-			if (pos >= size() || pos + str.size() > size()) {
+			if (pos >= size()) {
 				return npos;
 			}
 			const C* r = std::search(begin() + pos, end(), str.begin(), str.end());
@@ -233,8 +233,8 @@ namespace base {
 		}
 		size_t rfind(const StringPieceT& str, size_t pos = npos) const {
 			size_t n = pos >= size() ? 0 : size() - pos;
-			const_reverse_iterator it = std::search(rbegin() + n, rend(), str.rbegin(), str.rend());
-			return it == rend() ? npos : implicit_cast<size_t>(it.base() - begin());
+			const_iterator it = std::find_end(begin(), end() - n, str.begin(), str.end());
+			return it == end() - n ? npos : implicit_cast<size_t>(it - begin());
 		}
 
 		//string opertion: find_first_of
@@ -300,7 +300,8 @@ namespace base {
 		size_t find_last_of(const StringPieceT& str, size_t pos = npos) const {
 			for (const_reverse_iterator it = rbegin() + pos; it < rend(); ++it) {
 				if (str.find(*it) != npos) {
-					return implicit_cast<size_t>(it.base() - begin());
+					//since (&(*rbegin()) = (end()) - 1, we should correct this offset
+					return implicit_cast<size_t>(it.base() -1 - begin());
 				}
 			}
 			return npos;
