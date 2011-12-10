@@ -89,6 +89,9 @@
     <ClInclude Include="test\test_with_exit_manager.h">
       <Filter>test</Filter>
     </ClInclude>
+    <ClInclude Include="framework\message_pump_io.h">
+      <Filter>framework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
@@ -121,6 +124,9 @@
     </ClCompile>
     <ClCompile Include="synchronization\waitable_event.cpp">
       <Filter>synchronization</Filter>
+    </ClCompile>
+    <ClCompile Include="framework\message_pump_io.cpp">
+      <Filter>framework</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

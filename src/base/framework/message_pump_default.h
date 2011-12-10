@@ -14,7 +14,9 @@ namespace base {
 		DefaultMessagePump();
 		virtual ~DefaultMessagePump(){
 		}
-
+		virtual void DoRunLoop() {
+			// we override run not use DoRunLoop;
+		}
 		virtual void Run(Delegate* delegate);
 		virtual void Quit();
 		virtual void ScheduleWork();
