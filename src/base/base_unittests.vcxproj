@@ -19,6 +19,7 @@
     <ClCompile Include="synchronization\waitable_event_unittest.cpp" />
     <ClCompile Include="thread\thread_unittest.cpp" />
     <ClCompile Include="time\time_unitttest.cpp" />
+    <ClCompile Include="util\stop_watch_unittest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="base.vcxproj">

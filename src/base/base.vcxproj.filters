@@ -92,6 +92,9 @@
     <ClInclude Include="framework\message_pump_io.h">
       <Filter>framework</Filter>
     </ClInclude>
+    <ClInclude Include="util\stop_watch.h">
+      <Filter>util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
@@ -127,6 +130,9 @@
     </ClCompile>
     <ClCompile Include="framework\message_pump_io.cpp">
       <Filter>framework</Filter>
+    </ClCompile>
+    <ClCompile Include="util\stop_watch.cpp">
+      <Filter>util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

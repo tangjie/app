@@ -19,11 +19,11 @@
  *       ......
  *     } //watch.Report() should occur at this point.
  * (3) 上例中的ScopedStopWatch..一行可以用下面的方式代替：
- *       DEFINE_STOP_WATCH(bar);
+ *       INSTALL_SCOPED_STOP_WATCH(bar);
  *     这样做有两点好处：
  *     a) 自动给变量取名字，避免watch对象重名；
- *     b) 输出的结果中会含有调用StopWatch的文件/函数信息；TODO(oldman)
- * (4) TODO(oldman)多路StopWatch
+ *     b) 输出的结果中会含有调用StopWatch的源文件的相关信息；
+ * (4) 多路StopWatch TODO(oldman)
  *
  * 默认情况下，StopWatch只会工作在dbg模式下，如果希望其工作在opt版本中，请设置XXX参数（详见cpp文件）TODO(oldman)
  *       
@@ -32,8 +32,8 @@
  */
 
 
-#ifndef BASE_STOP_WATCH_H__
-#define BASE_STOP_WATCH_H__
+#ifndef BASE_UTIL_STOP_WATCH_H__
+#define BASE_UTIL_STOP_WATCH_H__
 
 #include "base/base_types.h"
 #include "base/string/string_piece.h"
@@ -41,15 +41,27 @@
 #include "base/util/noncopyable.h"
 
 namespace base {
+	// Reporter for StopWatch
+	class StopWatchReporter {
+	public:
+		// Actual Report for StopWatch, you can override this for custom reporter
+		// see comments of StopWatch::StopWatch for detail
+		virtual void Report(const StringPiece& watch_name, TimeSpan elapsed) = 0;
+	};
 	namespace internal {
-		typedef void (*Reporter) (int64_t);
-		void StopWatchDefaultReport(int64_t elapsed);
+		class StopWatchDefaultReporter : public StopWatchReporter {
+		public:
+			virtual void Report(const StringPiece& watch_name, TimeSpan elapsed);
+		};
 	}
 
 	class StopWatch: public noncopyable {
 	public:
-		// build a stopwatch which name is |watch_name|
+		// build a stopwatch which name is |watch_name|, which reporter is default Reporter
+		// (internal::StopWatchDefaultReport)
 		StopWatch(const StringPiece& watch_name);
+		// build a stopwatch which name is |watch_name|, which reporter is user-defined Reporter
+		StopWatch(const StringPiece& watch_name, StopWatchReporter* reporter);
 		// operation: Start this stopwatch, if already started, return false
 		bool Start();
 		// operation: Stop this stopwatch, if already stopped, do nothing
@@ -59,42 +71,46 @@ namespace base {
 		// operation: Restart = StopAndReset + Start.
 		void Restart();
 		// is this stopwatch running
-		bool IsRunning() const;
+		bool IsRunning() const {
+			return is_running_;
+		}
 		// get elapsed time
-		TimeSpan elapsed() const;
-		// report data in readable format
-		void Report(internal::Reporter r = internal::StopWatchDefaultReport);
+		TimeSpan elapsed() const {
+			return TimeSpan::FromMicroseconds(elapsed_);
+		}
+		// name of the watch
+		void SetName(const StringPiece& watch_name) {
+			watch_name_ = watch_name;
+		}
+		StringPiece name() const {
+			return watch_name_;
+		}
+		// report data, actual result is decided by reporter_;
+		// if the watch is running, Report will report data according current time,
+		// but it don't stop this watch.
+		void Report() const;
 	protected:
 		bool is_running_;
 		int64_t elapsed_;
-	};
-
-	class MultiStopWatch: public noncopyable {
-	public:
-		// build a multiway stopwatch which name is |watch_name|
-		StopWatch(const StringPiece& watch_name);
-		// operation: Start this stopwatch, if already started, return false
-		bool Start();
-		// operation: Stop this stopwatch, if already stopped, do nothing
-		void Stop();
-		// operation: Start
+		TimeTicks last_timeticks_;
+		StringPiece watch_name_;
+		StopWatchReporter* reporter_;
 	};
 
 	//handy stopwatch which report elapsed_time when deleted
 	class ScopedStopWatch: public StopWatch {
 	public:
-		ScopedStopWatch(const StringPiece& watch_name, internal::Reporter reporter = internal::StopWatchDefaultReport)
-			:StopWatch(watch_name), reporter_(reporter) {
+		ScopedStopWatch(const StringPiece& watch_name) : StopWatch(watch_name) {
+		}
+		ScopedStopWatch(const StringPiece& watch_name, StopWatchReporter* reporter)
+			: StopWatch(watch_name, reporter) {
 		}
 		~ScopedStopWatch() {
-			Stop();
-			Report(reporter_);
+			Report();
 		}
-	protected:
-		internal::Reporter* reporter_;
 	};
 }
 
-#define DEFINE_STOP_WATCH(name) base::ScopedStopWatch StopWatch##name(base::StringPiece(#name "in" __FILE__));
+#define INSTALL_STOP_WATCH(name) base::ScopedStopWatch StopWatch##name(base::StringPiece(#name "##" __FILE__ "##" __LINE__));
 
 #endif

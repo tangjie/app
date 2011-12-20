@@ -174,6 +174,7 @@ namespace base {
 		explicit TimeTicks(int64_t ticks) : ticks_(ticks) {
 		}
 		static TimeTicks Now();
+		//TODO(oldman): Rename it to "HighResolutionNow"
 		static TimeTicks HightResolutionNow();
 		bool IsNull() const {
 			return ticks_ == 0;

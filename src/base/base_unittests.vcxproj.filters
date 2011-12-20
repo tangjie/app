@@ -21,6 +21,9 @@
     <ClCompile Include="thread\thread_unittest.cpp">
       <Filter>thread</Filter>
     </ClCompile>
+    <ClCompile Include="util\stop_watch_unittest.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="memory">
@@ -40,6 +43,9 @@
     </Filter>
     <Filter Include="thread">
       <UniqueIdentifier>{0e426393-e913-4b44-98ca-6b9b04c5b616}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{3e043f97-cc51-4974-ade1-63f1ad26b23e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

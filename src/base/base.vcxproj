@@ -34,6 +34,7 @@
     <ClInclude Include="time\time.h" />
     <ClInclude Include="util\invoke_helper.h" />
     <ClInclude Include="util\noncopyable.h" />
+    <ClInclude Include="util\stop_watch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="at_exit_manager.cpp" />
@@ -48,6 +49,7 @@
     <ClCompile Include="thread\thread_helper.cpp" />
     <ClCompile Include="thread\thread_local.cpp" />
     <ClCompile Include="time\time.cpp" />
+    <ClCompile Include="util\stop_watch.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{835D37C0-5DDC-4280-B9BF-05DAD77391F7}</ProjectGuid>
