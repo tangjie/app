@@ -2,10 +2,18 @@
 
 #include <iostream>
 #include "base/time/time.h"
+#include "gflags/gflags.h"
+
+DEFINE_bool(force_stop_watch_report, false, "whether or not report stop watch in release(opt) version");
 
 namespace {
 	//TODO(oldman): make this lazy initialized
 	base::internal::StopWatchDefaultReporter g_defaultReporter;
+#ifdef NDEBUG
+	bool kReportStopWatch = FLAGS_force_stop_watch_report;
+#else
+	bool kReportStopWatch = true;
+#endif
 }
 
 namespace base {
