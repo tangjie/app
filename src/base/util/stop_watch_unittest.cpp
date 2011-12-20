@@ -3,6 +3,7 @@
 #include "gtest/gtest.h"
 
 TEST(StopWatch, Fuzzy) {
+	base::ScopedStopWatch wScoped(base::StringPiece("foobar"));
 	base::StopWatch w(base::StringPiece("Fuzzy"));
 	w.Start();
 	Sleep(100);

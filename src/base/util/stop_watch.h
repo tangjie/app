@@ -18,12 +18,7 @@
  *       ......
  *       ......
  *     } //watch.Report() should occur at this point.
- * (3) 上例中的ScopedStopWatch..一行可以用下面的方式代替：
- *       INSTALL_SCOPED_STOP_WATCH(bar);
- *     这样做有两点好处：
- *     a) 自动给变量取名字，避免watch对象重名；
- *     b) 输出的结果中会含有调用StopWatch的源文件的相关信息；
- * (4) 多路StopWatch TODO(oldman)
+ * (3) 多路StopWatch TODO(oldman)
  *
  * 默认情况下，StopWatch只会工作在dbg模式下，如果希望其工作在opt版本中，请设置XXX参数（详见cpp文件）TODO(oldman)
  *       
@@ -101,6 +96,7 @@ namespace base {
 	class ScopedStopWatch: public StopWatch {
 	public:
 		ScopedStopWatch(const StringPiece& watch_name) : StopWatch(watch_name) {
+			Start();
 		}
 		ScopedStopWatch(const StringPiece& watch_name, StopWatchReporter* reporter)
 			: StopWatch(watch_name, reporter) {
@@ -110,7 +106,5 @@ namespace base {
 		}
 	};
 }
-
-#define INSTALL_STOP_WATCH(name) base::ScopedStopWatch StopWatch##name(base::StringPiece(#name "##" __FILE__ "##" __LINE__));
 
 #endif
