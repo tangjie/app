@@ -100,6 +100,7 @@ namespace base {
 		}
 		ScopedStopWatch(const StringPiece& watch_name, StopWatchReporter* reporter)
 			: StopWatch(watch_name, reporter) {
+			Start();
 		}
 		~ScopedStopWatch() {
 			Report();
