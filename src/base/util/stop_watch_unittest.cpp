@@ -2,19 +2,20 @@
 #include "base/util/stop_watch.h"
 #include "gtest/gtest.h"
 
+namespace {
+	class ExpectReporter : public base::StopWatchReporter {
+	public:
+		ExpectReporter(base::StringPiece watch_name) : watch_name_(watch_name) {
+		}
 
-class ExpectReporter : public base::StopWatchReporter {
-public:
-	ExpectReporter(base::StringPiece watch_name) : watch_name_(watch_name) {
-	}
-
-	virtual void Report(const base::StringPiece& watch_name, base::TimeSpan elapsed) {
-		EXPECT_EQ(watch_name, watch_name_);
-		EXPECT_GT(elapsed.ToMilliseconds(), 0);
-	}
-private:
-	base::StringPiece watch_name_;
-};
+		virtual void Report(const base::StringPiece& watch_name, base::TimeSpan elapsed) {
+			EXPECT_EQ(watch_name, watch_name_);
+			EXPECT_GT(elapsed.ToMilliseconds(), 0);
+		}
+	private:
+		base::StringPiece watch_name_;
+	};
+}
 
 TEST(StopWatch, Basic) {
 	base::StopWatch watch(base::StringPiece("a"));

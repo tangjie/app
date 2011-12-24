@@ -1,12 +1,10 @@
 #include "base/util/stop_watch.h"
 
 #include <iostream>
+#include "base/gflags.h"
 #include "base/time/time.h"
-#ifdef NDEBUG
-#include "gflags/gflags.h"
 
 DEFINE_bool(force_stop_watch_report, false, "whether or not report stop watch in release(opt) version");
-#endif
 
 namespace {
 	//TODO(oldman): make this lazy initialized

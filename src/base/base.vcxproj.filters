@@ -95,6 +95,7 @@
     <ClInclude Include="util\stop_watch.h">
       <Filter>util</Filter>
     </ClInclude>
+    <ClInclude Include="gflags.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="framework\message_loop.cpp">
