@@ -62,6 +62,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)../../bin/$(Configuration)/</OutDir>
     <IntDir>$(ProjectDir)../../tmp/$(Configuration)/</IntDir>
+    <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='opt|Win32'">
     <LinkIncremental>false</LinkIncremental>

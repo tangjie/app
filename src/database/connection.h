@@ -5,7 +5,7 @@
 #ifndef DATABASE_CONNECTION_H__
 #define DATABASE_CONNECTION_H__
 
-#include "base/base_types.h"
+#include "base/util/noncopyable.h"
 #include "sqlite3/sqlite3.h"
 #include "base/time/time.h"
 
@@ -31,10 +31,14 @@ namespace database {
 			return !!db_;
 		}
 
-		void Close();
-		void Compact();
-		bool Execute(const char *sql_text, base::TimeSpan time_out = TimeSpan());
-		bool IsValid();
+		bool Close();
+		bool Compact();
+		bool Execute(const char *sql_text);
+		bool ExecuteWithTimeout(const char *sql_text, base::TimeSpan time_out);
+		bool IsValid() {
+			return db_ != nullptr;
+		}
+		void Interrupt();
 		// Get last error code associated with the last sqlite operation..
 		int GetErrorCode() const;
 		// Get the errno associated with the last last error code.
@@ -44,7 +48,6 @@ namespace database {
 		int64_t GetLastInsertRowId() const;
 		int GetLastChangeCount() const;
 	private:
-		bool OpenInternal(const char *filename);
 		sqlite3* db_;
 	};
 }
